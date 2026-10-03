@@ -1,6 +1,6 @@
-import createMiddleware from "next-intl/middleware";
-import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import createMiddleware from "next-intl/middleware";
+
 import { generateNonce } from "@/lib/security/nonce";
 
 const intlMiddleware = createMiddleware({
@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
   // CSP with nonce (report-only mode for now)
   const supabaseDomain = process.env.NEXT_PUBLIC_SUPABASE_URL
     ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
-    : "*.supabase.co';
+    : "*.supabase.co";
 
   const csp = [
     "default-src 'none'",

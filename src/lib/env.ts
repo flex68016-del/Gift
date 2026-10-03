@@ -34,7 +34,7 @@ const envSchema = z.object({
   DATA_ENCRYPTION_KEY: z.string().min(32),
   EMAIL_HMAC_KEY: z.string().min(32),
   CRON_SECRET: z.string().min(1),
-  GIFT_RETENTION_YEARS: z.string().transform(Number).pipe(z.number().int().positive()).default("5"),
+  GIFT_RETENTION_YEARS: z.string().transform(Number).pipe(z.number().int().positive()).default(5),
   SENTRY_DSN: z.string().url().optional(),
 });
 
