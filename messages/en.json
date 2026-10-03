@@ -1,0 +1,20 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry"
+  },
+  "nav": {
+    "home": "Home",
+    "create": "Create a gift",
+    "pricing": "Pricing",
+    "about": "About"
+  },
+  "landing": {
+    "hero": {
+      "title": "A gift to experience, not just read",
+      "subtitle": "Create an interactive digital gift for your loved ones in minutes",
+      "cta": "Get started"
+    }
+  }
+}
