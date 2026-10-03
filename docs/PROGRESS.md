@@ -22,6 +22,12 @@
 - .well-known/security.txt créé
 - .codeiumignore créé (exclusion des fichiers de secrets)
 - CODEOWNERS créé
+- CI de sécurité ajoutée (gitleaks, audit, CodeQL, Semgrep)
+- Dependabot configuré
+- .npmrc et .nvmrc configurés
+
+## Reste à faire dans Prompt 1
+- Middleware CSP avancé avec nonce et Trusted Types (mode report-only d'abord)
 
 ## Actions manuelles pour moi
 1. Protection de la branche main sur GitHub :
