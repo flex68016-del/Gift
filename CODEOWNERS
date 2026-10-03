@@ -1,0 +1,8 @@
+# Code Owners
+
+* @flex68016-del
+
+# Security-sensitive files
+src/lib/security/ @flex68016-del
+src/lib/storage/supabase.ts @flex68016-del
+src/middleware.ts @flex68016-del

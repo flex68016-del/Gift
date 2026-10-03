@@ -1,0 +1,26 @@
+# Security Policy
+
+## Contact
+
+To report a security vulnerability, please email: security@example.com
+
+## Preferred Languages
+
+We prefer reports in French or English.
+
+## Encryption
+
+Our PGP key is available at: https://example.com/pgp-key.txt (à remplacer)
+
+## Disclosure Policy
+
+- We will respond within 48 hours
+- We will keep you informed of our progress
+- We will credit your contribution (if desired)
+- We will not pursue legal action for good-faith security research
+
+## Scope
+
+- Production systems: Not allowed
+- User data: Not allowed
+- Public-facing applications: Allowed

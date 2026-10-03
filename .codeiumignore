@@ -1,0 +1,12 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Supabase temporary files
+supabase/.temp
+
+# Secrets and keys
+*.key
+*.pem
+*.p12
