@@ -9,7 +9,7 @@
 - Branche : chore/00-regles-projet
 - En attente de fusion dans main
 
-## Prompt 1 en cours
+## Prompt 1 terminé
 - Next.js initialisé avec TypeScript strict, Tailwind, ESLint
 - Dépendances installées : zod, next-intl, Supabase, Prettier, Vitest, Playwright
 - Scripts configurés : dev, build, typecheck, lint, test, e2e
@@ -25,9 +25,8 @@
 - CI de sécurité ajoutée (gitleaks, audit, CodeQL, Semgrep)
 - Dependabot configuré
 - .npmrc et .nvmrc configurés
-
-## Reste à faire dans Prompt 1
-- Middleware CSP avancé avec nonce et Trusted Types (mode report-only d'abord)
+- Middleware CSP avancé avec nonce et Trusted Types (mode report-only)
+- Protection de l'agent Windsurf (.codeiumignore)
 
 ## Actions manuelles pour moi
 1. Protection de la branche main sur GitHub :
