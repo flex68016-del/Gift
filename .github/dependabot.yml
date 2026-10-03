@@ -21,4 +21,7 @@ updates:
           - "patch"
         exclude-patterns:
           - "*"
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["minor", "patch"]
 
