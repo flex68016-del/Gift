@@ -1,5 +1,7 @@
 import sharp from "sharp";
+
 import { storageProvider } from "@/lib/storage";
+
 import { registerJob } from "../registry";
 
 interface ProcessImagePayload {
@@ -27,11 +29,10 @@ async function processImageHandler(payload: ProcessImagePayload): Promise<void> 
     }
 
     // Traitement avec sharp
-    const processedImage = await sharp(originalBuffer)
+    const processedImage = await sharp(originalBuffer, { limitInputPixels: 67108864 }) // Max 64 MP pour éviter DoS
       .webp({ quality: 80 }) // Conversion en WebP
       .rotate() // Auto-rotation basée sur EXIF
       .resize(1600, 1600, { fit: "inside", withoutEnlargement: true }) // Max 1600px
-      .limitInputPixels(67108864) // Max 64 MP pour éviter DoS
       .toBuffer();
 
     // Créer la miniature (480px max)
@@ -77,7 +78,7 @@ async function processImageHandler(payload: ProcessImagePayload): Promise<void> 
 
 registerJob({
   name: "process-image",
-  handler: processImageHandler,
+  handler: (payload: Record<string, unknown>) => processImageHandler(payload as unknown as ProcessImagePayload),
   maxRetries: 3,
   retryDelay: 60, // 1 minute
 });

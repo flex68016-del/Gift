@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { Reveal } from "@/motion/primitives/Reveal";
 
 interface RevealBlockProps {

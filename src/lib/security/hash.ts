@@ -1,4 +1,4 @@
-import { scryptSync, randomBytes, timingSafeEqual } from "crypto";
+import { randomBytes, scryptSync, timingSafeEqual } from "crypto";
 
 // Paramètres scrypt (N=16384, r=8, p=1) - compromis entre sécurité et performance
 const SCRYPT_N = 16384;

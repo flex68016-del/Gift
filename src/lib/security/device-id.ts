@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { env } from "@/lib/env";
 import { generateSlug } from "@/lib/security/tokens";
+
 import { hmac } from "./hmac";
 
 /**
  * Génère et signe un identifiant d'appareil pour le rate limiting
  */
 export function generateDeviceId(): string {
-  const deviceId = generateSlug(32); // 128 bits en hex
+  const deviceId = generateSlug(); // 128 bits en hex
   const timestamp = Date.now().toString();
   const data = `${deviceId}:${timestamp}`;
   const signature = hmac(data, env.SESSION_SECRET);
@@ -30,11 +32,11 @@ export function verifyDeviceId(signedData: string): string | null {
   if (signature !== expectedSignature) return null;
 
   // Vérifier que le cookie n'est pas trop vieux (90 jours)
-  const cookieTime = parseInt(timestamp, 10);
+  const cookieTime = parseInt(timestamp || "0", 10);
   const maxAge = 90 * 24 * 60 * 60 * 1000; // 90 jours en ms
   if (Date.now() - cookieTime > maxAge) return null;
 
-  return deviceId;
+  return deviceId || null;
 }
 
 /**

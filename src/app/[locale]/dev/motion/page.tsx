@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { TextCompose } from "@/motion/primitives/TextCompose";
+
+import { forceTier, getTier, type PerformanceTier } from "@/motion/perf/tier";
+import { useTier } from "@/motion/perf/useTier";
 import { Confetti } from "@/motion/primitives/Confetti";
 import { Haptics } from "@/motion/primitives/Haptics";
 import { Reveal, useReveal } from "@/motion/primitives/Reveal";
-import { getTier, forceTier, type PerformanceTier } from "@/motion/perf/tier";
-import { useTier } from "@/motion/perf/useTier";
+import { TextCompose } from "@/motion/primitives/TextCompose";
 
 export default function MotionDevPage() {
   const [selectedTier, setSelectedTier] = useState<PerformanceTier | null>(null);

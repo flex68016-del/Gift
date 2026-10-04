@@ -19,9 +19,9 @@ export const letterBlockSchema = z.object({
   type: z.literal("letter"),
   content: z.string().min(1).max(10000),
   style: z.object({
-    fontSize: z.enum(["sm", "md", "lg", "xl"]).default("md"),
-    textAlign: z.enum(["left", "center", "right"]).default("left"),
-    fontFamily: z.enum(["sans", "serif"]).default("serif"),
+    fontSize: z.enum(["sm", "md", "lg", "xl"]),
+    textAlign: z.enum(["left", "center", "right"]),
+    fontFamily: z.enum(["sans", "serif"]),
   }),
 });
 
@@ -39,8 +39,8 @@ export const galleryBlockSchema = z.object({
     .min(1)
     .max(20),
   style: z.object({
-    layout: z.enum(["grid", "carousel", "single"]).default("grid"),
-    showCaptions: z.boolean().default(true),
+    layout: z.enum(["grid", "carousel", "single"]),
+    showCaptions: z.boolean(),
   }),
 });
 
@@ -51,8 +51,8 @@ export const voiceBlockSchema = z.object({
   duration: z.number().positive().max(300), // max 5 minutes
   transcription: z.string().max(5000).optional(),
   style: z.object({
-    showTranscription: z.boolean().default(false),
-    autoPlay: z.boolean().default(false),
+    showTranscription: z.boolean(),
+    autoPlay: z.boolean(),
   }),
 });
 
@@ -71,7 +71,7 @@ export const timelineBlockSchema = z.object({
     .min(1)
     .max(20),
   style: z.object({
-    orientation: z.enum(["horizontal", "vertical"]).default("horizontal"),
+    orientation: z.enum(["horizontal", "vertical"]),
   }),
 });
 
@@ -83,8 +83,8 @@ export const counterBlockSchema = z.object({
   targetValue: z.number().int().positive().optional(),
   label: z.string().max(50).optional(),
   style: z.object({
-    size: z.enum(["sm", "md", "lg"]).default("md"),
-    showLabel: z.boolean().default(true),
+    size: z.enum(["sm", "md", "lg"]),
+    showLabel: z.boolean(),
   }),
 });
 
@@ -103,8 +103,8 @@ export const quizBlockSchema = z.object({
     .min(2)
     .max(6),
   style: z.object({
-    shuffleOptions: z.boolean().default(false),
-    showResult: z.boolean().default(true),
+    shuffleOptions: z.boolean(),
+    showResult: z.boolean(),
   }),
 });
 
@@ -115,7 +115,7 @@ export const revealBlockSchema = z.object({
   mediaUrl: z.string().url().optional(),
   mediaType: z.enum(["image", "video"]).optional(),
   style: z.object({
-    revealTrigger: z.enum(["click", "swipe", "auto"]).default("click"),
+    revealTrigger: z.enum(["click", "swipe", "auto"]),
     backgroundColor: z.string().optional(),
   }),
 });
@@ -124,11 +124,11 @@ export const revealBlockSchema = z.object({
 export const musicBlockSchema = z.object({
   type: z.literal("music"),
   trackId: z.string(),
-  loop: z.boolean().default(true),
-  volume: z.number().min(0).max(1).default(0.8),
+  loop: z.boolean(),
+  volume: z.number().min(0).max(1),
   style: z.object({
-    showControls: z.boolean().default(true),
-    autoPlay: z.boolean().default(false),
+    showControls: z.boolean(),
+    autoPlay: z.boolean(),
   }),
 });
 
@@ -163,7 +163,8 @@ export function validateGift(blocks: unknown[]): { valid: boolean; errors: strin
   }
 
   // Validation additionnelle : reveal unique et dernier
-  const revealCount = blocks.filter((b) => b.type === "reveal").length;
+  const typedBlocks = blocks as Array<{ type?: string }>;
+  const revealCount = typedBlocks.filter((b) => b.type === "reveal").length;
   if (revealCount > 1) {
     return {
       valid: false,
@@ -171,8 +172,8 @@ export function validateGift(blocks: unknown[]): { valid: boolean; errors: strin
     };
   }
 
-  const lastBlock = blocks[blocks.length - 1];
-  if (lastBlock.type !== "reveal") {
+  const lastBlock = typedBlocks[typedBlocks.length - 1];
+  if (lastBlock?.type !== "reveal") {
     return {
       valid: false,
       errors: ["Le dernier bloc doit être de type 'reveal'"],

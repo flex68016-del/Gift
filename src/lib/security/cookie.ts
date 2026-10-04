@@ -1,4 +1,5 @@
 import { env } from "@/lib/env";
+
 import { hmac } from "./hmac";
 
 /**
@@ -26,9 +27,9 @@ export function verifyGiftId(signedData: string): string | null {
   if (signature !== expectedSignature) return null;
 
   // Vérifier que le cookie n'est pas trop vieux (14 jours)
-  const cookieTime = parseInt(timestamp, 10);
+  const cookieTime = parseInt(timestamp || "0", 10);
   const maxAge = 14 * 24 * 60 * 60 * 1000; // 14 jours en ms
   if (Date.now() - cookieTime > maxAge) return null;
 
-  return giftId;
+  return giftId || null;
 }

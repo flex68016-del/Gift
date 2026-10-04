@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect,useState } from "react";
 
 interface CounterBlockProps {
   targetType: "days" | "hours" | "custom";
@@ -52,7 +52,7 @@ export function CounterBlock({ targetType, targetDate, targetValue, label, style
 
   return (
     <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-      <div className={sizeClasses[style.size]} font-bold text-gray-900 dark:text-gray-100">
+      <div className={`${sizeClasses[style.size]} font-bold text-gray-900 dark:text-gray-100`}>
         {value}
       </div>
       {style.showLabel && (label || targetType) && (

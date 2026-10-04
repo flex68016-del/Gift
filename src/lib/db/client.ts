@@ -1,4 +1,5 @@
 import postgres from "postgres";
+
 import { env } from "../env";
 
 // Configuration optimisée pour le pooler Supabase

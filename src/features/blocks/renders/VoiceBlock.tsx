@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect,useRef, useState } from "react";
+
 import { Haptics } from "@/motion/primitives/Haptics";
 
 interface VoiceBlockProps {

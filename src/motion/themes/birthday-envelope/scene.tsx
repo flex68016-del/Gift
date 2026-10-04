@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { SceneDirector } from "@/motion/director/SceneDirector";
+import { useEffect,useRef, useState } from "react";
+
 import { audioEngine } from "@/motion/audio/AudioEngine";
+import { SceneDirector } from "@/motion/director/SceneDirector";
+import { useTier } from "@/motion/perf/useTier";
 import { Confetti } from "@/motion/primitives/Confetti";
 import { TextCompose } from "@/motion/primitives/TextCompose";
-import { useTier } from "@/motion/perf/useTier";
 
 interface BirthdayEnvelopeSceneProps {
   onOpen: () => void;
@@ -74,8 +75,9 @@ export function BirthdayEnvelopeScene({ onOpen, onSkip, tier }: BirthdayEnvelope
 
     setIsOpen(true);
 
-    // GSAP timeline sequence
-    const timeline = director.timeline();
+    // Create timeline
+    const timeline = await director.createTimeline();
+    if (!timeline) return;
 
     // 1. Open flap
     timeline.to(flapRef.current, {
@@ -93,21 +95,21 @@ export function BirthdayEnvelopeScene({ onOpen, onSkip, tier }: BirthdayEnvelope
     });
 
     // 3. Confetti burst
-    timeline.call(() => {
+    timeline.add(() => {
       setShowConfetti(true);
     });
 
     // 4. Text composition
-    timeline.call(() => {
+    timeline.add(() => {
       setShowText(true);
     });
 
     // 5. Open callback
-    timeline.call(() => {
+    timeline.add(() => {
       onOpen();
     });
 
-    await director.play();
+    director.play();
   };
 
   const handleSkip = () => {
@@ -135,6 +137,7 @@ export function BirthdayEnvelopeScene({ onOpen, onSkip, tier }: BirthdayEnvelope
           ref={envelopeRef}
           className="relative cursor-pointer"
           onClick={handleDragEnd}
+          data-testid="birthday-envelope"
         >
           <div className="w-64 h-40 bg-amber-100 rounded-lg shadow-2xl relative">
             {/* Envelope body */}
@@ -167,7 +170,7 @@ export function BirthdayEnvelopeScene({ onOpen, onSkip, tier }: BirthdayEnvelope
             </div>
           )}
 
-          {showConfetti && actualTier !== "lite" && (
+          {showConfetti && actualTier.tier !== "lite" && (
             <Confetti count={100} colors={["#FF6B6B", "#FFE66D", "#4ECDC4"]} />
           )}
         </div>

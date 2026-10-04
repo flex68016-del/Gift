@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { cn } from "@/lib/utils";
 
 type ToastVariant = "success" | "error" | "info" | "warning";

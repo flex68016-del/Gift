@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+
 import { env } from "../env";
 import type { StorageProvider, UploadParams } from "./provider";
 
@@ -75,7 +76,6 @@ export class SupabaseStorage implements StorageProvider {
       .from(bucket)
       .createSignedUploadUrl(filePath, {
         upsert: false,
-        contentType: type,
       });
 
     if (error) {

@@ -8,10 +8,12 @@ type GSAPTimeline = {
   to: (target: any, props: any) => any;
   from: (target: any, props: any) => any;
   fromTo: (target: any, fromProps: any, toProps: any) => any;
+  add: (callback: () => void) => any;
+  play: () => void;
 };
 
 export class SceneDirector {
-  private timeline: GSAPTimeline | null = null;
+  public timeline: GSAPTimeline | null = null;
   private cleanupCallbacks: Array<() => void> = [];
   private prefersReducedMotion = false;
 
@@ -58,6 +60,25 @@ export class SceneDirector {
     }
 
     this.cleanupCallbacks = [];
+  }
+
+  /**
+   * Joue la timeline
+   */
+  play(): void {
+    if (this.timeline) {
+      this.timeline.play();
+    }
+  }
+
+  /**
+   * Annule la timeline
+   */
+  cancel(): void {
+    if (this.timeline) {
+      this.timeline.kill();
+      this.timeline = null;
+    }
   }
 
   /**

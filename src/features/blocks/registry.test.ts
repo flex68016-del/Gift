@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { registerBlock, getBlockDefinition, getAllBlockTypes } from "./registry";
+import { describe, expect,it } from "vitest";
+
+import { getAllBlockTypes,getBlockDefinition, registerBlock } from "./registry";
 
 describe("blockRegistry", () => {
   it("retourne undefined pour un type non enregistré", () => {

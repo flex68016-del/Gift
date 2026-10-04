@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect,useRef, useState } from "react";
+
 import { audioEngine } from "@/motion/audio/AudioEngine";
 
 interface MusicBlockProps {

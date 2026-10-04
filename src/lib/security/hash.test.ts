@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { hashSecret, verifySecret, dummyHash } from "./hash";
+import { describe, expect,it } from "vitest";
+
+import { dummyHash,hashSecret, verifySecret } from "./hash";
 
 describe("hashSecret", () => {
   it("génère un hash avec un sel", () => {

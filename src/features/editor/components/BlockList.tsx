@@ -1,8 +1,9 @@
 "use client";
 
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
+import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { SortableContext, sortableKeyboardCoordinates, useSortable,verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+
 import { Block } from "@/features/blocks/schemas";
 
 interface SortableItemProps {
@@ -48,9 +49,10 @@ export function BlockList({ blocks, onReorder, renderBlock }: BlockListProps) {
 
       const newBlocks = [...blocks];
       const [movedBlock] = newBlocks.splice(oldIndex, 1);
-      newBlocks.splice(newIndex, 0, movedBlock);
-
-      onReorder(newBlocks);
+      if (movedBlock) {
+        newBlocks.splice(newIndex, 0, movedBlock);
+        onReorder(newBlocks);
+      }
     }
   };
 

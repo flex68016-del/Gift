@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect,useState } from "react";
+
 import { getTier, type PerformanceTier } from "./tier";
 
 /**
@@ -8,13 +9,10 @@ import { getTier, type PerformanceTier } from "./tier";
  * Dégade dynamiquement si la cadence passe sous 30 fps
  */
 export function useTier() {
-  const [tier, setTier] = useState<PerformanceTier>("standard");
+  const [tier, setTier] = useState<PerformanceTier>(() => getTier());
   const [fps, setFps] = useState<number>(60);
 
   useEffect(() => {
-    // Détection initiale
-    setTier(getTier());
-
     // Mesure FPS
     let frameCount = 0;
     let lastTime = performance.now();

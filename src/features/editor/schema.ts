@@ -1,7 +1,8 @@
 import { z } from "zod";
+
 import { blockSchema } from "@/features/blocks/schemas";
 
-const giftSettingsSchema = z.object({
+export const giftSettingsSchema = z.object({
   themeKey: z.string().min(1).max(50),
   locale: z.enum(["fr", "en"]),
   senderName: z.string().min(1).max(100),
