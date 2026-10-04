@@ -57,5 +57,26 @@
       "surprise": "Surprise!",
       "from": "From {name}"
     }
+  },
+  "gift": {
+    "ogTitle": "A gift awaits you",
+    "ogDescription": "Someone has prepared a special surprise for you",
+    "loading": "Loading...",
+    "loadingGift": "Loading your gift...",
+    "locked": "This gift is protected by a secret word",
+    "enterSecret": "Enter the secret word to open it",
+    "secret": "Secret word",
+    "unlock": "Unlock",
+    "wrongSecret": "Incorrect secret word",
+    "tooManyAttempts": "Too many attempts. Please try again in a few minutes.",
+    "hint": "Hint: {hint}",
+    "countdown": "This gift will open on {date}",
+    "notPublished": "This gift is not yet available",
+    "notFound": "Gift not found",
+    "report": "Report this gift",
+    "reportReason": "Reason for report",
+    "reportSubmit": "Submit report",
+    "reportSuccess": "Report submitted",
+    "reportFailed": "Error submitting report"
   }
 }

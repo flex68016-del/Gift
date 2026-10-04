@@ -57,5 +57,26 @@
       "surprise": "Surprise !",
       "from": "De {name}"
     }
+  },
+  "gift": {
+    "ogTitle": "Un cadeau t' attend",
+    "ogDescription": "Quelqu'un t'a préparé une surprise spéciale",
+    "loading": "Chargement...",
+    "loadingGift": "Chargement de votre cadeau...",
+    "locked": "Ce cadeau est protégé par un mot secret",
+    "enterSecret": "Entrez le mot secret pour l'ouvrir",
+    "secret": "Mot secret",
+    "unlock": "Déverrouiller",
+    "wrongSecret": "Mot secret incorrect",
+    "tooManyAttempts": "Trop de tentatives. Réessayez dans quelques minutes.",
+    "hint": "Indice : {hint}",
+    "countdown": "Ce cadeau s'ouvrira le {date}",
+    "notPublished": "Ce cadeau n'est pas encore disponible",
+    "notFound": "Cadeau introuvable",
+    "report": "Signaler ce cadeau",
+    "reportReason": "Raison du signalement",
+    "reportSubmit": "Envoyer le signalement",
+    "reportSuccess": "Signalement envoyé",
+    "reportFailed": "Erreur lors du signalement"
   }
 }
