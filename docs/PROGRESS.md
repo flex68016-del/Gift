@@ -43,3 +43,47 @@
    - Vercel (quand configuré)
    - Supabase (quand configuré)
    - FedaPay (quand configuré)
+
+## Prompt 2 terminé
+### 2A - Schema RLS et privilèges
+- 8 migrations SQL créées (types, tables, triggers, fonctions)
+- Tables : gifts, gift_blocks, assets, music_tracks, payments, webhook_events, contributors, contributions, reactions, gift_events, daily_stats, abuse_reports, audit_log
+- RLS activé sur toutes les tables (refus par défaut)
+- Rôle app_server créé avec privilèges minimaux
+- Politiques RLS pour app_server
+- Fonctions SQL : record_open, publish_gift, maintain_partitions, purge_old_events
+- Seed SQL avec 3 pistes musicales de test
+- Document SUPABASE-HARDENING.md créé
+
+### 2B - Sécurité crypto et jetons
+- Utilitaires de jetons (generateSlug, generateEditToken, sha256, safeEqual)
+- Chiffrement AES-256-GCM avec préfixe de version (encrypt, decrypt)
+- HMAC-SHA-256 pour indexation d'e-mails (hmacEmail)
+- Hash scrypt pour secrets (hashSecret, verifySecret, dummyHash)
+- Tests unitaires complets
+
+### 2C - Accès SQL et stockage
+- Client SQL postgres.js pooler-safe (prepare: false, pool petit, timeout court)
+- Client de migration avec timeout plus long
+- Interface StorageProvider (abstraction pour changement de backend)
+- Implémentation Supabase (service-role, upload, download, signed URLs, delete)
+- Validation des chemins avec tests
+
+## Prompt 3 terminé
+- Jetons de design CSS (couleurs, typographie, espacements, rayons, ombres, transitions)
+- Polices via next/font (Inter, Playfair Display)
+- Composants UI accessibles (Button, Field, Dialog, Toast, Stepper, Switch)
+- Moteur de performance (detectTier, useTier)
+- Moteur audio (AudioEngine)
+- Directeur de scène (SceneDirector avec GSAP)
+- Primitives d'animation (TextCompose, Confetti, Haptics, Reveal)
+- Page de test /dev/motion
+
+## Prompt 4 terminé
+- Schémas Zod pour tous les types de blocs (letter, gallery, voice, timeline, counter, quiz, reveal, music)
+- Registre de blocs (blockRegistry)
+- Composants de rendu neutres pour tous les types de blocs
+- Fonctions de validation (validateGift, normalizeOrder)
+- Tests unitaires des schémas et registre
+- Page de test /dev/blocks
+- Configuration Vitest avec jsdom et mock d'environnement
