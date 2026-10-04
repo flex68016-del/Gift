@@ -25,5 +25,20 @@
     "theme": "Theme",
     "create": "Create",
     "creating": "Creating..."
+  },
+  "editor": {
+    "steps": {
+      "theme": "Theme",
+      "info": "Info",
+      "content": "Content",
+      "music": "Music",
+      "opening": "Opening",
+      "preview": "Preview"
+    },
+    "saving": "Saving...",
+    "saved": "Saved",
+    "addBlock": "Add block",
+    "publish": "Publish",
+    "publishing": "Publishing..."
   }
 }
