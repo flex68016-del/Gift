@@ -49,6 +49,13 @@
       "dear": "Dear {name}",
       "from": "From {name}",
       "scrollToRead": "Scroll to read"
+    },
+    "gift": {
+      "skip": "Skip animation",
+      "pullRibbon": "Pull the ribbon to open",
+      "pullToOpen": "Pull to open",
+      "surprise": "Surprise!",
+      "from": "From {name}"
     }
   }
 }

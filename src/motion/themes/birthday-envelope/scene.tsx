@@ -108,8 +108,6 @@ export function BirthdayEnvelopeScene({ onOpen, onSkip, tier }: BirthdayEnvelope
     timeline.add(() => {
       onOpen();
     });
-
-    director.play();
   };
 
   const handleSkip = () => {

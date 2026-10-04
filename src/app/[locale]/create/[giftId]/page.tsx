@@ -33,7 +33,7 @@ export default function EditGiftPage() {
   } = useForm<GiftSettings>({
     resolver: zodResolver(giftSettingsSchema),
     defaultValues: {
-      themeKey: "birthday",
+      themeKey: "gift-ribbon",
       locale: "fr",
       senderName: "",
       blocks: [],
@@ -103,7 +103,7 @@ export default function EditGiftPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">{t("steps.theme")}</h2>
             <div className="grid grid-cols-2 gap-4">
-              {["birthday", "parchment", "love", "thank-you", "celebration"].map((theme) => (
+              {["birthday", "parchment", "gift-ribbon", "love", "thank-you", "celebration"].map((theme) => (
                 <button
                   key={theme}
                   onClick={() => setStep("info")}
@@ -112,7 +112,7 @@ export default function EditGiftPage() {
                   }`}
                 >
                   <div className="text-4xl mb-2">
-                    {theme === "birthday" ? "🎂" : theme === "parchment" ? "📜" : theme === "love" ? "❤️" : theme === "thank-you" ? "🙏" : "🎉"}
+                    {theme === "birthday" ? "🎂" : theme === "parchment" ? "📜" : theme === "gift-ribbon" ? "🎁" : theme === "love" ? "❤️" : theme === "thank-you" ? "🙏" : "🎉"}
                   </div>
                   <div className="font-medium capitalize">{theme}</div>
                 </button>
@@ -139,6 +139,19 @@ export default function EditGiftPage() {
                   </div>
                 </div>
                 <p className="text-center mt-4 text-sm font-serif text-[#2E2118]">Cher ami...</p>
+              </div>
+            )}
+
+            {formData.themeKey === "gift-ribbon" && (
+              <div className="mt-8 p-6 bg-[#0E1B16] rounded-lg">
+                <p className="text-sm text-[#F6F1E4] mb-4">Aperçu du thème Cadeau</p>
+                <div className="w-32 h-32 bg-[#14382B] rounded mx-auto shadow-lg border-4 border-[#D9A93F] relative">
+                  <div className="absolute top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-[#B8283B] rounded-full flex items-center justify-center">
+                    <div className="w-4 h-4 bg-[#D9A93F] rounded-full" />
+                  </div>
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-4 h-full bg-[#D9A93F]" />
+                </div>
+                <p className="text-center mt-4 text-sm font-bold text-[#F6F1E4]">Surprise !</p>
               </div>
             )}
           </div>

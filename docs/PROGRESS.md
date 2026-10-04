@@ -151,3 +151,27 @@
 - Messages i18n FR/EN
 - Support prefers-reduced-motion
 - Bouton Passer l'animation
+
+## Prompt 7B - Thème Cadeau terminé
+### Complété
+- Scène signature avec boîte cadeau et ruban tirable
+- Couvercle qui s'envole et lumière qui jaillit
+- Version 2,5D (couches CSS + Motion)
+- Variante lite (ruban se dénoue au toucher, fondu)
+- Variante standard/ultra (animation complète avec timeline GSAP)
+- Palette de couleurs du CDC (Vert forêt #14382B, Ruban or #D9A93F, Ivoire #F6F1E4, Rouge baie #B8283B, Nuit #0E1B16)
+- Typographie Bricolage Grotesque (titres) et Source Serif 4 (texte)
+- Page de test /dev/themes/gift
+- Intégration dans l'éditeur (aperçu statique dans l'étape Thème)
+- Messages i18n FR/EN
+- Support prefers-reduced-motion
+- Bouton Passer l'animation
+- Extension prévue pour version 3D future (ultra)
+
+### Commun - Tests et validation
+- Page de test combinée /dev/themes/all pour tous les thèmes
+- Affichage de tous les blocs V1 après la scène d'ouverture
+- Sélecteur de thème et de niveau de performance
+- Vérification que tous les blocs s'affichent correctement dans les 3 thèmes
+- Budget de poids respecté (~50KB par thème sans images statiques)
+- Simplification de SceneDirector (suppression de la méthode play)
