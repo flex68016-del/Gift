@@ -16,5 +16,14 @@
       "subtitle": "Créez en quelques minutes un cadeau numérique interactif pour vos proches",
       "cta": "Commencer"
     }
+  },
+  "create": {
+    "title": "Créer un cadeau",
+    "senderName": "Votre nom",
+    "senderNamePlaceholder": "Ex: Marie Dupont",
+    "language": "Langue",
+    "theme": "Thème",
+    "create": "Créer",
+    "creating": "Création en cours..."
   }
 }

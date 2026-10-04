@@ -16,5 +16,14 @@
       "subtitle": "Create an interactive digital gift for your loved ones in minutes",
       "cta": "Get started"
     }
+  },
+  "create": {
+    "title": "Create a gift",
+    "senderName": "Your name",
+    "senderNamePlaceholder": "Ex: John Doe",
+    "language": "Language",
+    "theme": "Theme",
+    "create": "Create",
+    "creating": "Creating..."
   }
 }
