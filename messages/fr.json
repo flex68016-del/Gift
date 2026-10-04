@@ -40,5 +40,15 @@
     "addBlock": "Ajouter un bloc",
     "publish": "Publier",
     "publishing": "Publication en cours..."
+  },
+  "themes": {
+    "parchment": {
+      "skip": "Passer l'animation",
+      "breakSeal": "Toucher pour briser le sceau",
+      "tapToBreak": "Touchez pour briser le sceau",
+      "dear": "Cher {name}",
+      "from": "De {name}",
+      "scrollToRead": "Défilez pour lire"
+    }
   }
 }

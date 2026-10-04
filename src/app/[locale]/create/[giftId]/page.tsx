@@ -103,7 +103,7 @@ export default function EditGiftPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">{t("steps.theme")}</h2>
             <div className="grid grid-cols-2 gap-4">
-              {["birthday", "love", "thank-you", "celebration"].map((theme) => (
+              {["birthday", "parchment", "love", "thank-you", "celebration"].map((theme) => (
                 <button
                   key={theme}
                   onClick={() => setStep("info")}
@@ -111,12 +111,14 @@ export default function EditGiftPage() {
                     formData.themeKey === theme ? "border-blue-500 bg-blue-50" : "border-gray-300"
                   }`}
                 >
-                  <div className="text-4xl mb-2">{theme === "birthday" ? "🎂" : theme === "love" ? "❤️" : theme === "thank-you" ? "🙏" : "🎉"}</div>
+                  <div className="text-4xl mb-2">
+                    {theme === "birthday" ? "🎂" : theme === "parchment" ? "📜" : theme === "love" ? "❤️" : theme === "thank-you" ? "🙏" : "🎉"}
+                  </div>
                   <div className="font-medium capitalize">{theme}</div>
                 </button>
               ))}
             </div>
-            
+
             {/* Preview du thème sélectionné */}
             {formData.themeKey === "birthday" && (
               <div className="mt-8 p-6 bg-gradient-to-b from-pink-100 to-pink-200 rounded-lg">
@@ -125,6 +127,18 @@ export default function EditGiftPage() {
                   <div className="absolute top-0 left-0 right-0 h-10 bg-amber-200 rounded-t" />
                 </div>
                 <p className="text-center mt-4 text-sm font-serif text-gray-700">Joyeux Anniversaire !</p>
+              </div>
+            )}
+
+            {formData.themeKey === "parchment" && (
+              <div className="mt-8 p-6 bg-[#EBDCBB] rounded-lg">
+                <p className="text-sm text-[#2E2118] mb-4">Aperçu du thème Parchemin</p>
+                <div className="w-32 h-32 bg-[#F5E6D3] rounded mx-auto shadow-lg border-4 border-[#B38B3E] relative p-4">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-[#8E1B1B] rounded-full flex items-center justify-center">
+                    <div className="text-[#B38B3E] text-2xl font-serif">✦</div>
+                  </div>
+                </div>
+                <p className="text-center mt-4 text-sm font-serif text-[#2E2118]">Cher ami...</p>
               </div>
             )}
           </div>
