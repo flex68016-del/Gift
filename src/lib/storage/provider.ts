@@ -19,6 +19,11 @@ export interface StorageProvider {
   getSignedUrl(path: string, expiresIn: number): Promise<string>;
 
   /**
+   * Génère une URL signée pour l'upload
+   */
+  getSignedUploadUrl(path: string, type: string, expiresIn: number): Promise<string>;
+
+  /**
    * Supprime un fichier
    */
   delete(path: string): Promise<void>;

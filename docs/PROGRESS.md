@@ -101,3 +101,13 @@
 - Drag-and-drop des blocs avec dnd-kit
 - Étape Ouverture (immédiate, secret, date programmée)
 - Étape Musique (bibliothèque ou lien)
+
+## Prompt 5B terminé
+- Composant ImageUploader (compression navigateur WebP, 1600px max, miniature 480px)
+- Composant VoiceRecorder (MediaRecorder, 60s max, indicateur de niveau)
+- POST /api/uploads/sign (vérification propriété et quotas, URL signée)
+- POST /api/uploads/finalize (contrôle taille/type par magic numbers, mise en file)
+- File de tâches QStash (client, vérification signature avec rotation)
+- Registre de jobs (process-image, send-email, cleanup, etc.)
+- Job process-image avec sharp (WebP, suppression EXIF/GPS, limitInputPixels)
+- Route POST /api/jobs/[name] pour exécution des jobs
