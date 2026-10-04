@@ -1,0 +1,2 @@
+ignore-scripts=true
+onlyBuiltDependencies=esbuild @parcel/watcher @swc/core unrs-resolver
