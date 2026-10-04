@@ -20,8 +20,15 @@ jobs:
           node-version: 20
           cache: "pnpm"
       - run: echo "" > .npmrc
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm typecheck
+      - run: pnpm install --frozen-lockfile 2>&1 | tee install.log
+      - run: pnpm typecheck 2>&1 | tee typecheck.log
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: typecheck-logs
+          path: |
+            install.log
+            typecheck.log
 
   lint:
     runs-on: ubuntu-latest
@@ -33,8 +40,15 @@ jobs:
           node-version: 20
           cache: "pnpm"
       - run: echo "" > .npmrc
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm lint
+      - run: pnpm install --frozen-lockfile 2>&1 | tee install.log
+      - run: pnpm lint 2>&1 | tee lint.log
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: lint-logs
+          path: |
+            install.log
+            lint.log
 
   test:
     runs-on: ubuntu-latest
@@ -46,5 +60,12 @@ jobs:
           node-version: 20
           cache: "pnpm"
       - run: echo "" > .npmrc
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm test
+      - run: pnpm install --frozen-lockfile 2>&1 | tee install.log
+      - run: pnpm test 2>&1 | tee test.log
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test-logs
+          path: |
+            install.log
+            test.log

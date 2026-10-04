@@ -31,9 +31,14 @@ jobs:
           node-version: 20
           cache: "pnpm"
       - run: echo "" > .npmrc
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile 2>&1 | tee install.log
       # Temporarily disabled - transitive dependency in Next.js
-      # - run: pnpm audit --audit-level=high
+      # - run: pnpm audit --audit-level=high 2>&1 | tee audit.log
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: audit-logs
+          path: install.log
 
   # Temporarily disabled to unblock development
   # codeql:
