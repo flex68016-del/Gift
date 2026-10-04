@@ -67,6 +67,24 @@ export class SupabaseStorage implements StorageProvider {
     return data.signedUrl;
   }
 
+  async getSignedUploadUrl(path: string, type: string, expiresIn: number): Promise<string> {
+    const bucket = this.extractBucket(path);
+    const filePath = this.extractPath(path);
+
+    const { data, error } = await this.client.storage
+      .from(bucket)
+      .createSignedUploadUrl(filePath, {
+        upsert: false,
+        contentType: type,
+      });
+
+    if (error) {
+      throw new Error(`Signed upload URL failed: ${error.message}`);
+    }
+
+    return data.signedUrl;
+  }
+
   async delete(path: string): Promise<void> {
     const bucket = this.extractBucket(path);
     const filePath = this.extractPath(path);
@@ -120,3 +138,8 @@ export class SupabaseStorage implements StorageProvider {
  * Instance singleton du provider Supabase
  */
 export const storage = new SupabaseStorage();
+
+/**
+ * Export par défaut pour compatibilité
+ */
+export const storageProvider = storage;
