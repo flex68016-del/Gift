@@ -174,3 +174,4 @@
 - Sélecteur de thème et de niveau de performance
 - Vérification que tous les blocs s'affichent correctement dans les 3 thèmes
 - Budget de poids respecté (~50KB par thème sans images statiques)
+- Simplification de SceneDirector (suppression de la méthode play)
