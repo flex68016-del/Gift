@@ -104,7 +104,7 @@ export class SupabaseStorage implements StorageProvider {
     if (parts.length < 2) {
       throw new Error(`Invalid path format: ${path}. Expected "bucket/path"`);
     }
-    return parts[0];
+    return parts[0] || "";
   }
 
   private extractPath(path: string): string {

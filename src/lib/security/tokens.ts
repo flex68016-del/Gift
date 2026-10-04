@@ -11,7 +11,8 @@ export function generateSlug(): string {
   const bytes = randomBytes(SLUG_LENGTH);
   let slug = "";
   for (let i = 0; i < SLUG_LENGTH; i++) {
-    slug += ALPHANUMERIC[bytes[i] % ALPHANUMERIC.length];
+    const charIndex = bytes[i]! % ALPHANUMERIC.length;
+    slug += ALPHANUMERIC[charIndex];
   }
   return slug;
 }

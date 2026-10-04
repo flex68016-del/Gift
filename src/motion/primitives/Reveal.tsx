@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface RevealProps {
   children: React.ReactNode;
@@ -14,7 +14,6 @@ interface RevealProps {
  */
 export function Reveal({ children, className = "", threshold = 0.5 }: RevealProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const elementRef = useRef<HTMLDivElement>(null);
 
   const reveal = () => {
     setIsVisible(true);
@@ -24,20 +23,23 @@ export function Reveal({ children, className = "", threshold = 0.5 }: RevealProp
     setIsVisible(false);
   };
 
-  // Exposer les méthodes de contrôle via ref
-  useEffect(() => {
-    if (elementRef.current) {
-      (elementRef.current as any).reveal = reveal;
-      (elementRef.current as any).hide = hide;
-    }
-  }, []);
-
   return (
     <div
-      ref={elementRef}
+      data-reveal="true"
       className={`transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"} ${className}`}
     >
       {children}
     </div>
   );
+}
+
+export function useReveal() {
+  const reveal = () => {
+    const el = document.querySelector('[data-reveal="true"]');
+    if (el) {
+      (el as any).reveal?.();
+    }
+  };
+
+  return { reveal };
 }

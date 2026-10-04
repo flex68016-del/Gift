@@ -3,8 +3,15 @@
  * Gère le nettoyage au démontage et le mode économie
  */
 
+type GSAPTimeline = {
+  kill: () => void;
+  to: (target: any, props: any) => any;
+  from: (target: any, props: any) => any;
+  fromTo: (target: any, fromProps: any, toProps: any) => any;
+};
+
 export class SceneDirector {
-  private timeline: any = null;
+  private timeline: GSAPTimeline | null = null;
   private cleanupCallbacks: Array<() => void> = [];
   private prefersReducedMotion = false;
 
@@ -20,13 +27,13 @@ export class SceneDirector {
    * Crée une nouvelle timeline GSAP
    * GSAP est importé dynamiquement pour éviter le chemin critique
    */
-  async createTimeline(): Promise<any> {
+  async createTimeline(): Promise<GSAPTimeline | null> {
     if (this.prefersReducedMotion) {
       return null; // Pas d'animation si prefers-reduced-motion
     }
 
-    const gsap = await import("gsap");
-    this.timeline = gsap.timeline();
+    const gsapModule = await import("gsap");
+    this.timeline = (gsapModule as any).timeline();
     return this.timeline;
   }
 

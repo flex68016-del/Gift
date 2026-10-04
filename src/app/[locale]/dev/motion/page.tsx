@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { TextCompose } from "@/motion/primitives/TextCompose";
 import { Confetti } from "@/motion/primitives/Confetti";
 import { Haptics } from "@/motion/primitives/Haptics";
-import { Reveal } from "@/motion/primitives/Reveal";
+import { Reveal, useReveal } from "@/motion/primitives/Reveal";
 import { getTier, forceTier, type PerformanceTier } from "@/motion/perf/tier";
 import { useTier } from "@/motion/perf/useTier";
 
@@ -12,7 +12,7 @@ export default function MotionDevPage() {
   const [selectedTier, setSelectedTier] = useState<PerformanceTier | null>(null);
   const { tier: currentTier, fps } = useTier();
   const [showConfetti, setShowConfetti] = useState(false);
-  const revealRef = useRef<HTMLDivElement>(null);
+  const { reveal } = useReveal();
 
   const handleTierChange = (tier: PerformanceTier) => {
     forceTier(tier);
@@ -29,9 +29,7 @@ export default function MotionDevPage() {
   };
 
   const triggerReveal = () => {
-    if (revealRef.current) {
-      (revealRef.current as any).reveal();
-    }
+    reveal();
   };
 
   return (
@@ -116,7 +114,7 @@ export default function MotionDevPage() {
           <button onClick={triggerReveal} className="px-4 py-2 bg-red-600 text-white rounded mb-4">
             Révéler
           </button>
-          <Reveal ref={revealRef}>
+          <Reveal>
             <div className="p-4 bg-white dark:bg-gray-700 rounded">
               Ce contenu est révélé au clic, pas au scroll.
             </div>

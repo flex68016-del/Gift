@@ -127,7 +127,7 @@ export class AudioEngine {
    */
   getAnalyserData(dataArray: Uint8Array): void {
     if (this.analyser) {
-      this.analyser.getByteFrequencyData(dataArray);
+      this.analyser.getByteFrequencyData(dataArray as any);
     }
   }
 

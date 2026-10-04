@@ -39,15 +39,18 @@ export function Confetti({ count, colors }: ConfettiProps) {
 
     // Initialiser les particules
     for (let i = 0; i < actualCount; i++) {
-      particles.push({
-        x: canvas.width / 2,
-        y: canvas.height / 2,
-        vx: (Math.random() - 0.5) * 10,
-        vy: (Math.random() - 0.5) * 10 - 5,
-        color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
-        rotation: Math.random() * 360,
-        rotationSpeed: (Math.random() - 0.5) * 10,
-      });
+      const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+      if (color) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          vx: (Math.random() - 0.5) * 10,
+          vy: (Math.random() - 0.5) * 10 - 5,
+          color,
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 10,
+        });
+      }
     }
 
     let animationId: number;
@@ -71,7 +74,8 @@ export function Confetti({ count, colors }: ConfettiProps) {
 
       // Retirer les particules hors écran
       for (let i = particles.length - 1; i >= 0; i--) {
-        if (particles[i].y > canvas.height + 20) {
+        const p = particles[i];
+        if (p && p.y > canvas.height + 20) {
           particles.splice(i, 1);
         }
       }
