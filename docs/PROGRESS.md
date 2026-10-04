@@ -112,7 +112,8 @@
 - Job process-image avec sharp (WebP, suppression EXIF/GPS, limitInputPixels)
 - Route POST /api/jobs/[name] pour exécution des jobs
 
-## Prompt 6 terminé
+## Prompt 6 - Partiellement terminé
+### Complété
 - Interface ThemeDefinition et registre de thèmes
 - Thème anniversaire (birthday-envelope)
 - Tokens CSS spécifiques au thème (palette, typographie, espacements)
@@ -122,3 +123,17 @@
 - Premier geste reprend AudioContext et lance la musique
 - Page de test /dev/themes/birthday
 - Registre de thèmes avec OpeningScene et transitions
+- Preload manifest (assets critiques ≤150KB estimé, CSS généré dynamiquement)
+- Tests unitaires pour performance-level selection (5 tests)
+- Aperçu du thème dans l'éditeur (étape Thème)
+- data-testid ajouté pour tests E2E
+- Correction useTier pour éviter setState synchrone dans effect
+- Support prefers-reduced-motion (fondus uniquement)
+
+### Reste à faire (selon CDC)
+- Tests Playwright pour l'ouverture (configuration Playwright nécessaire)
+- Validation FPS ~50 sur midrange Android (requiert tests sur device réel)
+- Validation critical payload ≤150 KB (estimé à ~50KB sans images statiques)
+- Intégration complète du thème dans l'aperçu éditeur (aperçu statique pour l'instant)
+- Finale basée sur reveal.animation (à implémenter quand bloc reveal est prêt)
+- Transitions action-driven entre blocs (à implémenter avec block system)
