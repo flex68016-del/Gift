@@ -1,4 +1,4 @@
-import { randomBytes, scryptSync, createCipheriv, createDecipheriv } from "crypto";
+import { randomBytes, createCipheriv, createDecipheriv } from "crypto";
 import { env } from "../env";
 
 // Préfixe de version pour rotation de clés
@@ -8,10 +8,10 @@ const KEY_VERSION_PREFIX = "v1:";
  * Chiffre une donnée avec AES-256-GCM
  * Format: {version}:{iv}:{ciphertext}:{authTag}
  */
-export function encrypt(data: string): string {
-  const key = Buffer.from(env.DATA_ENCRYPTION_KEY, "hex");
+export function encrypt(data: string, key?: string): string {
+  const encryptionKey = key ? Buffer.from(key, "hex") : Buffer.from(env.DATA_ENCRYPTION_KEY, "hex");
   const iv = randomBytes(12);
-  const cipher = createCipheriv("aes-256-gcm", key, iv);
+  const cipher = createCipheriv("aes-256-gcm", encryptionKey, iv);
 
   let encrypted = cipher.update(data, "utf8", "hex");
   encrypted += cipher.final("hex");
@@ -23,8 +23,8 @@ export function encrypt(data: string): string {
 /**
  * Déchiffre une donnée chiffrée avec AES-256-GCM
  */
-export function decrypt(encrypted: string): string {
-  const key = Buffer.from(env.DATA_ENCRYPTION_KEY, "hex");
+export function decrypt(encrypted: string, key?: string): string {
+  const encryptionKey = key ? Buffer.from(key, "hex") : Buffer.from(env.DATA_ENCRYPTION_KEY, "hex");
 
   // Parser le format: {version}:{iv}:{ciphertext}:{authTag}
   const parts = encrypted.split(":");
@@ -36,7 +36,7 @@ export function decrypt(encrypted: string): string {
   const iv = Buffer.from(ivHex, "hex");
   const authTag = Buffer.from(authTagHex, "hex");
 
-  const decipher = createDecipheriv("aes-256-gcm", key, iv);
+  const decipher = createDecipheriv("aes-256-gcm", encryptionKey, iv);
   decipher.setAuthTag(authTag);
 
   let decrypted = decipher.update(ciphertext, "hex", "utf8");
