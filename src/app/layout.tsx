@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import "../styles/design-tokens.css";
 
 export const metadata: Metadata = {
   title: "Moment",
