@@ -9,7 +9,6 @@ type GSAPTimeline = {
   from: (target: any, props: any) => any;
   fromTo: (target: any, fromProps: any, toProps: any) => any;
   add: (callback: () => void, position?: string) => any;
-  call: (callback: () => void, position?: string) => any;
   play: () => void;
 };
 

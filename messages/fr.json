@@ -49,6 +49,13 @@
       "dear": "Cher {name}",
       "from": "De {name}",
       "scrollToRead": "Défilez pour lire"
+    },
+    "gift": {
+      "skip": "Passer l'animation",
+      "pullRibbon": "Tirez le ruban pour ouvrir",
+      "pullToOpen": "Tirez pour ouvrir",
+      "surprise": "Surprise !",
+      "from": "De {name}"
     }
   }
 }
