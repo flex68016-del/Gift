@@ -137,3 +137,17 @@
 - Intégration complète du thème dans l'aperçu éditeur (aperçu statique pour l'instant)
 - Finale basée sur reveal.animation (à implémenter quand bloc reveal est prêt)
 - Transitions action-driven entre blocs (à implémenter avec block system)
+
+## Prompt 7A - Thème Parchemin terminé
+### Complété
+- Scène signature avec sceau de cire brisable (toucher)
+- Parchemin qui se déroule avec animation GSAP
+- Variante lite (sceau disparaît en fondu, parchemin affiché directement)
+- Variante standard/ultra (animation complète avec timeline GSAP)
+- Palette de couleurs du CDC (Brun encre #2E2118, Parchemin #EBDCBB, Cire rouge #8E1B1B, Or terni #B38B3E)
+- Typographie IM Fell English (titres) et Cormorant Garamond (texte)
+- Page de test /dev/themes/parchemin
+- Intégration dans l'éditeur (aperçu statique dans l'étape Thème)
+- Messages i18n FR/EN
+- Support prefers-reduced-motion
+- Bouton Passer l'animation
