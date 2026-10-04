@@ -40,5 +40,15 @@
     "addBlock": "Add block",
     "publish": "Publish",
     "publishing": "Publishing..."
+  },
+  "themes": {
+    "parchment": {
+      "skip": "Skip animation",
+      "breakSeal": "Touch to break the seal",
+      "tapToBreak": "Tap to break the seal",
+      "dear": "Dear {name}",
+      "from": "From {name}",
+      "scrollToRead": "Scroll to read"
+    }
   }
 }
