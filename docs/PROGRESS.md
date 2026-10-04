@@ -111,3 +111,14 @@
 - Registre de jobs (process-image, send-email, cleanup, etc.)
 - Job process-image avec sharp (WebP, suppression EXIF/GPS, limitInputPixels)
 - Route POST /api/jobs/[name] pour exécution des jobs
+
+## Prompt 6 terminé
+- Interface ThemeDefinition et registre de thèmes
+- Thème anniversaire (birthday-envelope)
+- Tokens CSS spécifiques au thème (palette, typographie, espacements)
+- Scène signature "enveloppe" avec GSAP
+- Adaptation par niveau (lite = simple touch, standard/ultra = animation complète)
+- Bouton "Passer l'animation" toujours disponible
+- Premier geste reprend AudioContext et lance la musique
+- Page de test /dev/themes/birthday
+- Registre de thèmes avec OpeningScene et transitions
