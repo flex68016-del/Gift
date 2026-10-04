@@ -19,7 +19,8 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
-      - run: pnpm install --frozen-lockfile --ignore-scripts=false
+      - run: echo "" > .npmrc
+      - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
 
   lint:
@@ -31,7 +32,8 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
-      - run: pnpm install --frozen-lockfile --ignore-scripts=false
+      - run: echo "" > .npmrc
+      - run: pnpm install --frozen-lockfile
       - run: pnpm lint
 
   test:
@@ -43,5 +45,6 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
-      - run: pnpm install --frozen-lockfile --ignore-scripts=false
+      - run: echo "" > .npmrc
+      - run: pnpm install --frozen-lockfile
       - run: pnpm test

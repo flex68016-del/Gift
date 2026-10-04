@@ -30,7 +30,8 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
-      - run: pnpm install --frozen-lockfile --ignore-scripts=false
+      - run: echo "" > .npmrc
+      - run: pnpm install --frozen-lockfile
       # Temporarily disabled - transitive dependency in Next.js
       # - run: pnpm audit --audit-level=high
 
