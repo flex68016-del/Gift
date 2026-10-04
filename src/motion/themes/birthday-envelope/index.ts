@@ -1,5 +1,6 @@
 import { themeRegistry } from "../definitions";
 import { BirthdayEnvelopeScene } from "./scene";
+import { preloadManifest } from "./preload";
 
 // Enregistre le thème anniversaire
 themeRegistry.register({
@@ -27,8 +28,8 @@ themeRegistry.register({
     },
   },
   preload: {
-    critical: [], // Pas d'assets critiques pour l'instant
-    deferred: [], // Assets différés à définir
+    critical: [], // CSS généré dynamiquement, pas d'assets statiques critiques (~50KB estimé)
+    deferred: [], // Pas d'images statiques
   },
   OpeningScene: BirthdayEnvelopeScene,
   transitions: {

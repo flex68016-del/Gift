@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
-export function useAutoSave<T>(data: T, saveFn: (data: T) => Promise<void>, delay: number = 800) {
-  const timeoutRef = useRef<NodeJS.Timeout>();
+export function useAutoSave<T>(data: T, saveFn: (data: T) => Promise<void>, delay = 800) {
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const previousDataRef = useRef<T>(data);
 
   useEffect(() => {

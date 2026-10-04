@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyQStashSignature } from "@/lib/queue/verify";
+
 import { getJob } from "@/lib/queue/registry";
+import { verifyQStashSignature } from "@/lib/queue/verify";
 
 export async function POST(request: NextRequest, { params }: { params: { name: string } }) {
   try {

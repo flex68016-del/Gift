@@ -4,6 +4,7 @@ import "../../../styles/design-tokens.css";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+
 import { inter, playfair } from "@/lib/fonts";
 
 export const metadata: Metadata = {

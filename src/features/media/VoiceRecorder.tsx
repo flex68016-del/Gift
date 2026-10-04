@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect,useRef, useState } from "react";
 
 interface VoiceRecorderProps {
   onRecordingComplete: (audioBlob: Blob, duration: number) => Promise<void>;
@@ -17,8 +17,8 @@ export function VoiceRecorder({ onRecordingComplete, maxDuration = 60 }: VoiceRe
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const chunksRef = useRef<Blob[]>([]);
-  const timerRef = useRef<NodeJS.Timeout>();
-  const animationRef = useRef<number>();
+  const timerRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const animationRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     return () => {

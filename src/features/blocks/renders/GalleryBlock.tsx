@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { cn } from "@/lib/utils";
 
 interface GalleryBlockProps {
@@ -16,6 +17,7 @@ export function GalleryBlock({ images, style }: GalleryBlockProps) {
 
   if (style.layout === "single" && images.length > 0) {
     const image = images[0];
+    if (!image) return null;
     return (
       <div className="relative">
         <img
@@ -32,6 +34,7 @@ export function GalleryBlock({ images, style }: GalleryBlockProps) {
 
   if (style.layout === "carousel") {
     const image = images[currentIndex];
+    if (!image) return null;
     return (
       <div className="relative">
         <img

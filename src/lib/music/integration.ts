@@ -15,7 +15,7 @@ export interface MusicIntegration {
 export function parseMusicUrl(url: string): MusicIntegration | null {
   // YouTube
   const youtubeMatch = url.match(YOUTUBE_REGEX);
-  if (youtubeMatch) {
+  if (youtubeMatch && youtubeMatch[1]) {
     const videoId = youtubeMatch[1];
     return {
       provider: "youtube",
@@ -26,7 +26,7 @@ export function parseMusicUrl(url: string): MusicIntegration | null {
 
   // Spotify
   const spotifyMatch = url.match(SPOTIFY_REGEX);
-  if (spotifyMatch) {
+  if (spotifyMatch && spotifyMatch[1]) {
     const trackId = spotifyMatch[1];
     return {
       provider: "spotify",

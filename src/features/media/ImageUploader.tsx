@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
 import imageCompression from "browser-image-compression";
+import { useRef,useState } from "react";
 
 interface ImageUploaderProps {
   onImageUpload: (file: File, compressed: File, thumbnail: File) => Promise<void>;

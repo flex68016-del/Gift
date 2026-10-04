@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+
 import { verifyGiftId } from "@/lib/security/cookie";
 
 /**

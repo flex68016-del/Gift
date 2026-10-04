@@ -1,13 +1,13 @@
 "use client";
 
-import { LetterBlock } from "@/features/blocks/renders/LetterBlock";
-import { GalleryBlock } from "@/features/blocks/renders/GalleryBlock";
-import { VoiceBlock } from "@/features/blocks/renders/VoiceBlock";
-import { TimelineBlock } from "@/features/blocks/renders/TimelineBlock";
 import { CounterBlock } from "@/features/blocks/renders/CounterBlock";
+import { GalleryBlock } from "@/features/blocks/renders/GalleryBlock";
+import { LetterBlock } from "@/features/blocks/renders/LetterBlock";
+import { MusicBlock } from "@/features/blocks/renders/MusicBlock";
 import { QuizBlock } from "@/features/blocks/renders/QuizBlock";
 import { RevealBlock } from "@/features/blocks/renders/RevealBlock";
-import { MusicBlock } from "@/features/blocks/renders/MusicBlock";
+import { TimelineBlock } from "@/features/blocks/renders/TimelineBlock";
+import { VoiceBlock } from "@/features/blocks/renders/VoiceBlock";
 
 export default function BlocksDevPage() {
   return (

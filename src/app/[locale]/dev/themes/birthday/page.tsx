@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { BirthdayEnvelopeScene } from "@/motion/themes/birthday-envelope/scene";
+
 import { useTier } from "@/motion/perf/useTier";
+import { BirthdayEnvelopeScene } from "@/motion/themes/birthday-envelope/scene";
 
 export default function BirthdayThemeDevPage() {
   const actualTier = useTier();
-  const [selectedTier, setSelectedTier] = useState<"lite" | "standard" | "ultra">(actualTier);
+  const [selectedTier, setSelectedTier] = useState<"lite" | "standard" | "ultra">(actualTier.tier);
   const [isOpened, setIsOpened] = useState(false);
 
   const handleOpen = () => {
@@ -49,7 +50,7 @@ export default function BirthdayThemeDevPage() {
 
         <div className="mb-4">
           <span className="text-sm text-gray-600 dark:text-gray-400">
-            Niveau détecté: {actualTier}
+            Niveau détecté: {actualTier.tier}
           </span>
         </div>
 

@@ -1,15 +1,16 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect,it } from "vitest";
+
 import {
-  letterBlockSchema,
-  galleryBlockSchema,
-  voiceBlockSchema,
-  timelineBlockSchema,
   counterBlockSchema,
+  galleryBlockSchema,
+  letterBlockSchema,
+  musicBlockSchema,
+  normalizeOrder,
   quizBlockSchema,
   revealBlockSchema,
-  musicBlockSchema,
+  timelineBlockSchema,
   validateGift,
-  normalizeOrder,
+  voiceBlockSchema,
 } from "./schemas";
 
 describe("Block schemas", () => {
@@ -146,9 +147,9 @@ describe("Block schemas", () => {
     it("retourne les blocs inchangés", () => {
       const blocks = [
         {
-          type: "letter",
+          type: "letter" as const,
           content: "Test",
-          style: { fontSize: "md", textAlign: "left", fontFamily: "serif" },
+          style: { fontSize: "md" as const, textAlign: "left" as const, fontFamily: "serif" as const },
         },
       ];
       const result = normalizeOrder(blocks);

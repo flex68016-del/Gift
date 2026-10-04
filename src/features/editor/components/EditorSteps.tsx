@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { Stepper } from "@/components/ui/Stepper";
 import { useTranslations } from "next-intl";
 
@@ -27,13 +28,16 @@ export function EditorSteps({ currentStep, onStepChange }: EditorStepsProps) {
 
   const currentIndex = steps.indexOf(currentStep);
 
+  const stepperSteps = steps.map((s, index) => ({
+    id: s,
+    label: stepLabels[s] || s,
+    completed: index < currentIndex,
+    current: index === currentIndex,
+  }));
+
   return (
     <div className="mb-8">
-      <Stepper
-        steps={steps.map((s) => stepLabels[s])}
-        currentStep={currentIndex}
-        onStepChange={(index) => onStepChange(steps[index])}
-      />
+      <Stepper steps={stepperSteps} />
     </div>
   );
 }

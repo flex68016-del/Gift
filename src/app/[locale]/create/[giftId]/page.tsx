@@ -1,17 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { EditorSteps } from "@/features/editor/components/EditorSteps";
-import { BlockList } from "@/features/editor/components/BlockList";
-import { useAutoSave } from "@/features/editor/useAutoSave";
-import { GiftSettings, giftSettingsSchema } from "@/features/editor/schema";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/Button";
 import { Block, blockTypeSchema } from "@/features/blocks/schemas";
+import { BlockList } from "@/features/editor/components/BlockList";
+import { EditorSteps } from "@/features/editor/components/EditorSteps";
+import { GiftSettings, giftSettingsSchema } from "@/features/editor/schema";
+import { useAutoSave } from "@/features/editor/useAutoSave";
 
 type Step = "theme" | "info" | "content" | "music" | "opening" | "preview";
 
@@ -27,7 +28,6 @@ export default function EditGiftPage() {
 
   const {
     register,
-    handleSubmit,
     formState: { errors },
     watch,
   } = useForm<GiftSettings>({
@@ -37,8 +37,8 @@ export default function EditGiftPage() {
       locale: "fr",
       senderName: "",
       blocks: [],
-      openSettings: { type: "immediate" },
-      musicSettings: { type: "library" },
+      openSettings: { type: "immediate", secret: undefined, hint: undefined, scheduledAt: undefined },
+      musicSettings: { type: "library", trackId: undefined, integrationUrl: undefined },
     },
   });
 
@@ -116,6 +116,17 @@ export default function EditGiftPage() {
                 </button>
               ))}
             </div>
+            
+            {/* Preview du thème sélectionné */}
+            {formData.themeKey === "birthday" && (
+              <div className="mt-8 p-6 bg-gradient-to-b from-pink-100 to-pink-200 rounded-lg">
+                <p className="text-sm text-gray-600 mb-4">Aperçu du thème Anniversaire</p>
+                <div className="w-32 h-20 bg-amber-100 rounded mx-auto shadow-lg border-4 border-amber-200 relative">
+                  <div className="absolute top-0 left-0 right-0 h-10 bg-amber-200 rounded-t" />
+                </div>
+                <p className="text-center mt-4 text-sm font-serif text-gray-700">Joyeux Anniversaire !</p>
+              </div>
+            )}
           </div>
         );
 
@@ -249,14 +260,20 @@ export default function EditGiftPage() {
           <Button onClick={() => {
             const steps: Step[] = ["theme", "info", "content", "music", "opening", "preview"];
             const currentIndex = steps.indexOf(currentStep);
-            if (currentIndex > 0) setStep(steps[currentIndex - 1]);
+            if (currentIndex > 0) {
+              const prevStep = steps[currentIndex - 1];
+              if (prevStep) setStep(prevStep);
+            }
           }} disabled={currentStep === "theme"} variant="outline">
             Précédent
           </Button>
           <Button onClick={() => {
             const steps: Step[] = ["theme", "info", "content", "music", "opening", "preview"];
             const currentIndex = steps.indexOf(currentStep);
-            if (currentIndex < steps.length - 1) setStep(steps[currentIndex + 1]);
+            if (currentIndex < steps.length - 1) {
+              const nextStep = steps[currentIndex + 1];
+              if (nextStep) setStep(nextStep);
+            }
           }} disabled={currentStep === "preview"}>
             Suivant
           </Button>
