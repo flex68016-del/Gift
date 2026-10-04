@@ -1,0 +1,19 @@
+:root {
+  /* Palette de couleurs - Anniversaire */
+  --theme-birthday-primary: #FF6B6B;
+  --theme-birthday-secondary: #FFE66D;
+  --theme-birthday-accent: #4ECDC4;
+  --theme-birthday-background: #FFF5F5;
+  --theme-birthday-text: #2D3436;
+  --theme-birthday-text-light: #636E72;
+
+  /* Typographie */
+  --theme-birthday-font-display: "Playfair Display", serif;
+  --theme-birthday-font-body: "Inter", sans-serif;
+
+  /* Espacements */
+  --theme-birthday-spacing-sm: 0.5rem;
+  --theme-birthday-spacing-md: 1rem;
+  --theme-birthday-spacing-lg: 2rem;
+  --theme-birthday-spacing-xl: 4rem;
+}
