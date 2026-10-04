@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import "../styles/design-tokens.css";
+import "@/lib/queue/jobs"; // Enregistre les jobs de la file de tâches
 
 export const metadata: Metadata = {
   title: "Moment",
