@@ -43,8 +43,8 @@ export function BlockList({ blocks, onReorder, renderBlock }: BlockListProps) {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      const oldIndex = blocks.findIndex((b) => b.type === active.id);
-      const newIndex = blocks.findIndex((b) => b.type === over.id);
+      const oldIndex = Number(active.id);
+      const newIndex = Number(over.id);
 
       const newBlocks = [...blocks];
       const [movedBlock] = newBlocks.splice(oldIndex, 1);
@@ -56,10 +56,10 @@ export function BlockList({ blocks, onReorder, renderBlock }: BlockListProps) {
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={blocks.map((b) => b.type)} strategy={verticalListSortingStrategy}>
+      <SortableContext items={blocks.map((_, i) => i.toString())} strategy={verticalListSortingStrategy}>
         <div className="space-y-4">
           {blocks.map((block, index) => (
-            <SortableItem key={block.type} id={block.type}>
+            <SortableItem key={index} id={index.toString()}>
               <div className="cursor-move">{renderBlock(block, index)}</div>
             </SortableItem>
           ))}
