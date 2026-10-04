@@ -87,3 +87,17 @@
 - Tests unitaires des schémas et registre
 - Page de test /dev/blocks
 - Configuration Vitest avec jsdom et mock d'environnement
+
+## Prompt 5A terminé
+- API routes (POST /api/gifts, PATCH /api/gifts/[id])
+- Protection CSRF (assertSameOrigin, assertBodySize)
+- Rate limiting (placeholder pour Upstash)
+- Cookies signés (__Host-gift-draft, __Host-did)
+- Helper requireGiftOwner pour authentification
+- Composant Turnstile client
+- Intégration musicale sécurisée (YouTube/Spotify)
+- Éditeur multi-étapes (Thème → Infos → Contenu → Musique → Ouverture → Aperçu)
+- Auto-save avec debounce (800ms)
+- Drag-and-drop des blocs avec dnd-kit
+- Étape Ouverture (immédiate, secret, date programmée)
+- Étape Musique (bibliothèque ou lien)
