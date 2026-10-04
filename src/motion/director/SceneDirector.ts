@@ -9,7 +9,6 @@ type GSAPTimeline = {
   from: (target: any, props: any) => any;
   fromTo: (target: any, fromProps: any, toProps: any) => any;
   add: (callback: () => void, position?: string) => any;
-  play: () => void;
 };
 
 export class SceneDirector {
@@ -60,15 +59,6 @@ export class SceneDirector {
     }
 
     this.cleanupCallbacks = [];
-  }
-
-  /**
-   * Joue la timeline
-   */
-  play(): void {
-    if (this.timeline) {
-      this.timeline.play();
-    }
   }
 
   /**
