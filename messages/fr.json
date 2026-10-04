@@ -16,5 +16,29 @@
       "subtitle": "Créez en quelques minutes un cadeau numérique interactif pour vos proches",
       "cta": "Commencer"
     }
+  },
+  "create": {
+    "title": "Créer un cadeau",
+    "senderName": "Votre nom",
+    "senderNamePlaceholder": "Ex: Marie Dupont",
+    "language": "Langue",
+    "theme": "Thème",
+    "create": "Créer",
+    "creating": "Création en cours..."
+  },
+  "editor": {
+    "steps": {
+      "theme": "Thème",
+      "info": "Infos",
+      "content": "Contenu",
+      "music": "Musique",
+      "opening": "Ouverture",
+      "preview": "Aperçu"
+    },
+    "saving": "Sauvegarde...",
+    "saved": "Sauvegardé",
+    "addBlock": "Ajouter un bloc",
+    "publish": "Publier",
+    "publishing": "Publication en cours..."
   }
 }

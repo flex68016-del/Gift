@@ -16,5 +16,29 @@
       "subtitle": "Create an interactive digital gift for your loved ones in minutes",
       "cta": "Get started"
     }
+  },
+  "create": {
+    "title": "Create a gift",
+    "senderName": "Your name",
+    "senderNamePlaceholder": "Ex: John Doe",
+    "language": "Language",
+    "theme": "Theme",
+    "create": "Create",
+    "creating": "Creating..."
+  },
+  "editor": {
+    "steps": {
+      "theme": "Theme",
+      "info": "Info",
+      "content": "Content",
+      "music": "Music",
+      "opening": "Opening",
+      "preview": "Preview"
+    },
+    "saving": "Saving...",
+    "saved": "Saved",
+    "addBlock": "Add block",
+    "publish": "Publish",
+    "publishing": "Publishing..."
   }
 }
