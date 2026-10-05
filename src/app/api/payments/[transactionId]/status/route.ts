@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sql } from "@/lib/db";
+import { db } from "@/lib/db/client";
 
 export async function GET(
   request: NextRequest,
@@ -9,7 +9,7 @@ export async function GET(
     const { transactionId } = await params;
 
     // Récupérer le paiement et les infos du cadeau
-    const result = await sql`
+    const result = await db`
       SELECT
         p.status,
         p.gift_id,

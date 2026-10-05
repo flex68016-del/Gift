@@ -2,24 +2,28 @@ import { NextRequest, NextResponse } from "next/server";
 import QRCode from "qrcode";
 import { cookies } from "next/headers";
 import { verifyCookie } from "@/lib/security/cookies";
-import { sql } from "@/lib/db";
-import { getSession } from "@/lib/auth/session";
+import { db } from "@/lib/db/client";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const giftId = params.id;
+    const { id: giftId } = await params;
 
-    // Vérifier la session de gestion
-    const session = await getSession(cookies());
-    if (!session) {
+    // Vérifier le cookie de session
+    const sessionCookie = cookies().get("__Host-manage-session");
+    if (!sessionCookie) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const sessionGiftId = await verifyCookie(sessionCookie.value);
+    if (!sessionGiftId || sessionGiftId !== giftId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Récupérer le cadeau
-    const giftResult = await sql`
+    const giftResult = await db`
       SELECT
         g.id,
         g.slug,
@@ -30,7 +34,6 @@ export async function GET(
         g.status
       FROM gifts g
       WHERE g.id = ${giftId}
-        AND g.sender_id = ${session.userId}
         AND g.deleted_at IS NULL
     `;
 
@@ -42,7 +45,7 @@ export async function GET(
 
     // Générer l'URL du cadeau
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://moment.gift";
-    const giftUrl = `${baseUrl}/${session.locale}/g/${gift.slug}`;
+    const giftUrl = `${baseUrl}/g/${gift.slug}`;
 
     // Générer le QR code
     const qrCodeDataUrl = await QRCode.toDataURL(giftUrl, {
