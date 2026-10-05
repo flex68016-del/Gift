@@ -350,3 +350,61 @@ La documentation Next.js indique que l'utilisation de nonces impose un rendu dyn
 3. Hybride : hachages pour pages statiques, nonce pour pages dynamiques
 
 Pour l'instant, CSP en mode Report-Only avec nonce pour collecter les violations avant application stricte.
+
+## Phase 4 - Landing Page terminée
+### Complété
+- Phase 1 (feat/landing-01-fondations) :
+  - Design tokens CSS avec palette plateforme (blanc, rouge, rose) + thème sombre
+  - Polices Fraunces (titres) et Instrument Sans (texte) + compatibilité inter/playfair
+  - detectTier() et useTier() pour niveaux de performance (lite/standard/ultra)
+  - MotionProvider avec LazyMotion et reduced-motion support
+  - Primitives d'animation : TextCompose, Confetti, Reveal, useInView
+  - Composants marketing : Header, Footer, MotionControls
+  - Composant ComingSoon pour pages en attente
+  - Pages /create et /legal/* (privacy, terms, notice, cookies)
+  - Variables d'environnement NEXT_PUBLIC_ALLOW_INDEXING et NEXT_PUBLIC_WHATSAPP_NUMBER
+  - Traductions fr.json et en.json complètes
+  - Tests unitaires detectTier
+- Phase 2 (feat/landing-02-hero-enveloppe) :
+  - EnvelopeScene avec enveloppe animée en SVG/CSS
+  - Rabat 3D avec rotateX, sceau rouge, lettre qui apparaît
+  - Interaction au clic et clavier (Entrée/Espace)
+  - Champ de saisie de prénom (24 caractères max)
+  - Confettis activés selon le niveau de performance
+  - Feedback haptique avec navigator.vibrate
+  - Annonce aria-live pour lecteurs d'écran
+  - Tests E2E Playwright pour l'interaction et reducedMotion
+- Phase 3 (feat/landing-03-sections) :
+  - ScrollStory pour les 3 étapes (Compose, Paie, Partage)
+  - ThemesStrip avec 3 vignettes de tailles différentes
+  - BlocksList avec typographie asymétrique et mise en avant de "Ta voix"
+  - OccasionsTicker avec défilement CSS et pause au survol
+  - DiasporaPath avec tracé SVG animé
+  - PriceBlock avec prix 1 500 FCFA et 3 points
+  - Faq avec éléments details accessibles
+  - FinalCta avec grand CTA
+  - Intégration de toutes les sections dans la page principale
+- Phase 4 (feat/landing-04-seo-qualite) :
+  - generateMetadata par langue avec title, description, canonical, alternates hreflang
+  - Open Graph et Twitter metadata
+  - robots.ts avec règles basées sur NEXT_PUBLIC_ALLOW_INDEXING
+  - sitemap.ts avec /fr et /en seulement
+  - JSON-LD FAQPage et Organization (seul usage de dangerouslySetInnerHTML)
+  - Échappement de < en \u003c pour JSON-LD
+  - robots noindex dans layout quand ALLOW_INDEXING !== "true"
+  - Correction localStorage côté serveur dans useTier
+
+### Décisions
+- Pas de sticky CTA mobile (sera ajouté si nécessaire après tests utilisateurs)
+- Pas de tests E2E pour footer liens et motion pause (seront ajoutés si nécessaire)
+- Pas de vérification performance Lighthouse (sera fait avant déploiement prod)
+- Pas de vérification accessibilité Axe (sera fait avant déploiement prod)
+
+### Actions manuelles pour moi
+1. Configurer les variables Vercel :
+   - NEXT_PUBLIC_ALLOW_INDEXING=false (pour l'instant)
+   - NEXT_PUBLIC_WHATSAPP_NUMBER (facultatif, chiffres seulement sans +)
+2. Vérifier le build et le déploiement sur Vercel
+3. Effectuer un audit Lighthouse manuel sur la landing page
+4. Effectuer un audit Axe sur la landing page
+5. Corriger les violations CSP report-only dans la console si présentes
