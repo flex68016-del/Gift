@@ -155,8 +155,3 @@ export const storage = (): SupabaseStorage => {
   }
   return storageInstance;
 };
-
-/**
- * Export par défaut pour compatibilité
- */
-export const storageProvider = storage;
