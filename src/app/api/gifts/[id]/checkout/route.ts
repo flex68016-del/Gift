@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { randomUUID } from "crypto";
 
 import { requireGiftOwner } from "@/lib/auth/require-gift-owner";
 import { assertSameOrigin } from "@/lib/security/csrf";
@@ -11,6 +12,7 @@ import { invalidateAllGiftCaches } from "@/lib/cache";
 const checkoutSchema = z.object({
   email: z.string().email(),
   phone: z.string().optional(),
+  idempotencyKey: z.string().uuid().optional(),
 });
 
 export async function POST(
@@ -35,7 +37,36 @@ export async function POST(
 
     // Valider le corps de la requête
     const body = await request.json();
-    const { email, phone } = checkoutSchema.parse(body);
+    const { email, phone, idempotencyKey: clientKey } = checkoutSchema.parse(body);
+
+    // Générer ou utiliser la clé d'idempotence
+    let idempotencyKey = clientKey || randomUUID();
+
+    // Vérifier s'il existe déjà un paiement avec cette clé
+    const existingPayment = await db`
+      SELECT id, transaction_id, status, expires_at
+      FROM payments
+      WHERE gift_id = ${giftId} AND idempotency_key = ${idempotencyKey}
+      LIMIT 1
+    `;
+
+    if (existingPayment && existingPayment.length > 0) {
+      const existing = existingPayment[0];
+      if (!existing) {
+        // Should not happen, but handle gracefully
+        idempotencyKey = randomUUID();
+      } else if (existing.status === "pending" || existing.status === "approved") {
+        // Si le paiement est pending ou approved, retourner les infos existantes
+        return NextResponse.json({
+          transactionId: existing.transaction_id,
+          checkoutUrl: existing.transaction_id ? `https://sandbox.fedapay.com/v1/checkout/${existing.transaction_id}` : null,
+          expiresAt: existing.expires_at,
+        });
+      } else {
+        // Si declined ou canceled, générer une nouvelle clé
+        idempotencyKey = randomUUID();
+      }
+    }
 
     // Récupérer le cadeau depuis la base de données
     const gift = await db`
@@ -91,28 +122,14 @@ export async function POST(
       );
     }
 
-    // Vérifier qu'il n'y a pas déjà un paiement pending
-    const existingPayment = await db`
-      SELECT id FROM payments
-      WHERE gift_id = ${giftId} AND status = 'pending'
-      LIMIT 1
-    `;
-
-    if (existingPayment && existingPayment.length > 0) {
-      return NextResponse.json(
-        { error: "Payment already in progress" },
-        { status: 400 },
-      );
-    }
-
     // Récupérer le prix
     const amount = getAmount(giftData.plan as "standard" | "premium");
     const currency = getCurrency();
 
     // Créer la ligne de paiement
     const payment = await db`
-      INSERT INTO payments (gift_id, amount, currency, status, customer_email, customer_phone, created_at)
-      VALUES (${giftId}, ${amount}, ${currency}, 'pending', ${email}, ${phone || null}, NOW())
+      INSERT INTO payments (gift_id, amount, currency, status, customer_email, customer_phone, idempotency_key, created_at)
+      VALUES (${giftId}, ${amount}, ${currency}, 'pending', ${email}, ${phone || null}, ${idempotencyKey}, NOW())
       RETURNING id
     `;
 
