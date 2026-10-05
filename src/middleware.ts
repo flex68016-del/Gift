@@ -6,7 +6,7 @@ import { generateNonce } from "@/lib/security/nonce";
 const intlMiddleware = createMiddleware({
   locales: ["fr", "en"],
   defaultLocale: "fr",
-  localePrefix: "always",
+  localePrefix: "as-needed",
 });
 
 export function middleware(request: NextRequest) {
@@ -57,5 +57,8 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  matcher: [
+    // Skip all internal paths (_next, _vercel, api)
+    "/((?!api|_next|_vercel|.*\\..*).*)",
+  ],
 };
