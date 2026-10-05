@@ -263,3 +263,17 @@
 - Limites de débit par cadeau et IP sur /checkout
 - Expiration des paiements pending après 1 heure (job de cleanup)
 - Fournisseur de secours (Stripe)
+
+## Prompt 9B - Rapprochement des paiements terminé
+### Complété
+- Job reconcile-payments dans src/lib/queue/jobs/reconcile-payments.ts
+- Récupération des paiements pending depuis plus de 5 minutes
+- Vérification du statut depuis l'API FedaPay
+- Verrou SELECT FOR UPDATE pendant traitement
+- Publication automatique si approuvé
+- Disjoncteur (circuit breaker) après 3 échecs consécutifs
+- Placeholder pour alerte et fournisseur de secours
+
+### Reste à faire (selon CDC)
+- Implémentation réelle de l'alerte (email, Slack, Sentry)
+- Bascule automatique vers fournisseur de secours (Stripe) quand disponible
