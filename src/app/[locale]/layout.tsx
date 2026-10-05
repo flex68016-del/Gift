@@ -3,10 +3,11 @@ import "../../styles/design-tokens.css";
 
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { inter, playfair } from "@/lib/fonts";
+import { routing } from "@/i18n/routing";
 
 const locales = ["fr", "en"] as const;
 
@@ -14,6 +15,10 @@ export const metadata: Metadata = {
   title: "Moment - Un cadeau qui se vit",
   description: "Créez des cadeaux numériques interactifs pour vos proches",
 };
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 export default async function LocaleLayout({
   children,
@@ -28,6 +33,7 @@ export default async function LocaleLayout({
     notFound();
   }
 
+  setRequestLocale(locale);
   const messages = await getMessages();
 
   return (

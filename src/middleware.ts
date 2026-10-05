@@ -2,12 +2,9 @@ import type { NextRequest } from "next/server";
 import createMiddleware from "next-intl/middleware";
 
 import { generateNonce } from "@/lib/security/nonce";
+import { routing } from "@/i18n/routing";
 
-const intlMiddleware = createMiddleware({
-  locales: ["fr", "en"],
-  defaultLocale: "fr",
-  localePrefix: "always",
-});
+const intlMiddleware = createMiddleware(routing);
 
 export function middleware(request: NextRequest) {
   const nonce = generateNonce();
