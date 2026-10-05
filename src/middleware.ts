@@ -6,7 +6,7 @@ import { generateNonce } from "@/lib/security/nonce";
 const intlMiddleware = createMiddleware({
   locales: ["fr", "en"],
   defaultLocale: "fr",
-  localePrefix: "as-needed",
+  localePrefix: "always",
 });
 
 export function middleware(request: NextRequest) {
