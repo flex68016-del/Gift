@@ -1,5 +1,5 @@
-import { registerJob } from "../registry";
 import { db } from "../../db/client";
+import { registerJob } from "../registry";
 
 interface FlushOpenCountsPayload {
   // Payload vide, exécuté périodiquement

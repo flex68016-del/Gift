@@ -3,9 +3,10 @@
  * Cible les marchés togolais et béninois (MTN MoMo, Moov Money, Mixx by Yas, cartes)
  */
 
-import { PaymentProvider, CheckoutRequest, CheckoutResponse, Transaction, WebhookEvent } from "./provider";
-import { env } from "../env";
 import crypto from "crypto";
+
+import { env } from "../env";
+import { CheckoutRequest, CheckoutResponse, PaymentProvider, Transaction, WebhookEvent } from "./provider";
 
 /**
  * Client FedaPay (placeholder pour l'API REST)

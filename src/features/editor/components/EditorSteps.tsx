@@ -1,9 +1,9 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Stepper } from "@/components/ui/Stepper";
-import { useTranslations } from "next-intl";
 
 type Step = "theme" | "info" | "content" | "music" | "opening" | "preview";
 

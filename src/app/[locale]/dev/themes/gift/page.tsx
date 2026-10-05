@@ -1,6 +1,6 @@
-import { GiftRibbonScene } from "@/motion/themes/gift-ribbon/scene";
 import { forceTier } from "@/motion/perf/tier";
 import { useTier } from "@/motion/perf/useTier";
+import { GiftRibbonScene } from "@/motion/themes/gift-ribbon/scene";
 
 export default function GiftThemePage() {
   const { tier } = useTier();

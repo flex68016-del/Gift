@@ -1,5 +1,6 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { detectTier, getTier, forceTier } from "./tier";
+import { beforeEach,describe, expect, it } from "vitest";
+
+import { detectTier, forceTier,getTier } from "./tier";
 
 describe("detectTier", () => {
   beforeEach(() => {

@@ -1,8 +1,9 @@
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import QRCode from "qrcode";
-import { cookies } from "next/headers";
-import { verifyCookie } from "@/lib/security/cookie";
+
 import { db } from "@/lib/db/client";
+import { verifyCookie } from "@/lib/security/cookie";
 
 export async function GET(
   request: NextRequest,

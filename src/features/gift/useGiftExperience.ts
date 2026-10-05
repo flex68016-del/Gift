@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect,useState } from "react";
 
 type GiftState = "locked" | "ready" | "intro" | "blocks" | "finale" | "ended";
 

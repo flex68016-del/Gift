@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { useEffect,useState } from "react";
+
+import { Turnstile } from "@/components/turnstile/Turnstile";
 import { useGiftExperience } from "@/features/gift/useGiftExperience";
 import { useTier } from "@/motion/perf/useTier";
 import { themeRegistry } from "@/motion/themes/definitions";
-import { Turnstile } from "@/components/turnstile/Turnstile";
 
 interface GiftClientProps {
   slug: string;

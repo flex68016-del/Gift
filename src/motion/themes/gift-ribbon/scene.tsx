@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useEffect, useRef, useState } from "react";
+
+import { audioEngine } from "../../audio/AudioEngine";
 import { SceneDirector } from "../../director/SceneDirector";
 import { useTier } from "../../perf/useTier";
-import { audioEngine } from "../../audio/AudioEngine";
 
 interface GiftRibbonSceneProps {
   onOpen: () => void;

@@ -1,6 +1,6 @@
 import { themeRegistry } from "../definitions";
-import { GiftRibbonScene } from "./scene";
 import { preloadManifest } from "./preload";
+import { GiftRibbonScene } from "./scene";
 
 // Enregistre le thème Cadeau
 themeRegistry.register({

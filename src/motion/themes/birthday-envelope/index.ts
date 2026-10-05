@@ -1,6 +1,6 @@
 import { themeRegistry } from "../definitions";
-import { BirthdayEnvelopeScene } from "./scene";
 import { preloadManifest } from "./preload";
+import { BirthdayEnvelopeScene } from "./scene";
 
 // Enregistre le thème anniversaire
 themeRegistry.register({

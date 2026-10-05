@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+
 import WhatsAppCTA from "@/components/WhatsAppCTA";
 
 interface CheckoutReturnClientProps {

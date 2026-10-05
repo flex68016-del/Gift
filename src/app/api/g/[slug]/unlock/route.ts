@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { hashSecret, verifySecret } from "@/lib/security/hash";
+
 import { signCookie, verifyCookie } from "@/lib/security/cookie";
 import { assertSameOrigin } from "@/lib/security/csrf";
+import { hashSecret, verifySecret } from "@/lib/security/hash";
 
 interface UnlockRequestBody {
   secret: string;

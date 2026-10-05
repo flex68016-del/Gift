@@ -1,6 +1,6 @@
-import { registerJob } from "../registry";
 import { db } from "../../db/client";
 import { fedapayProvider } from "../../payments/fedapay";
+import { registerJob } from "../registry";
 
 interface ReconcilePaymentsPayload {
   // Payload vide, exécuté périodiquement

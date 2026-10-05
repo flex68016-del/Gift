@@ -1,19 +1,20 @@
 "use client";
 
-import { BirthdayEnvelopeScene } from "@/motion/themes/birthday-envelope/scene";
-import { ParchmentScene } from "@/motion/themes/parchment/scene";
-import { GiftRibbonScene } from "@/motion/themes/gift-ribbon/scene";
-import { LetterBlock } from "@/features/blocks/renders/LetterBlock";
-import { GalleryBlock } from "@/features/blocks/renders/GalleryBlock";
-import { VoiceBlock } from "@/features/blocks/renders/VoiceBlock";
-import { TimelineBlock } from "@/features/blocks/renders/TimelineBlock";
+import { useState } from "react";
+
 import { CounterBlock } from "@/features/blocks/renders/CounterBlock";
+import { GalleryBlock } from "@/features/blocks/renders/GalleryBlock";
+import { LetterBlock } from "@/features/blocks/renders/LetterBlock";
+import { MusicBlock } from "@/features/blocks/renders/MusicBlock";
 import { QuizBlock } from "@/features/blocks/renders/QuizBlock";
 import { RevealBlock } from "@/features/blocks/renders/RevealBlock";
-import { MusicBlock } from "@/features/blocks/renders/MusicBlock";
+import { TimelineBlock } from "@/features/blocks/renders/TimelineBlock";
+import { VoiceBlock } from "@/features/blocks/renders/VoiceBlock";
 import { forceTier } from "@/motion/perf/tier";
 import { useTier } from "@/motion/perf/useTier";
-import { useState } from "react";
+import { BirthdayEnvelopeScene } from "@/motion/themes/birthday-envelope/scene";
+import { GiftRibbonScene } from "@/motion/themes/gift-ribbon/scene";
+import { ParchmentScene } from "@/motion/themes/parchment/scene";
 
 const testBlocks = [
   {

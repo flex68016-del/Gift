@@ -1,6 +1,6 @@
 import { themeRegistry } from "../definitions";
-import { ParchmentScene } from "./scene";
 import { preloadManifest } from "./preload";
+import { ParchmentScene } from "./scene";
 
 // Enregistre le thème Parchemin
 themeRegistry.register({

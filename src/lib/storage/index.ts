@@ -1,5 +1,5 @@
 import type { StorageProvider, UploadParams } from "./provider";
-import { SupabaseStorage, getStorage } from "./supabase";
+import { getStorage,SupabaseStorage } from "./supabase";
 
-export { SupabaseStorage, getStorage };
+export { getStorage,SupabaseStorage };
 export type { StorageProvider, UploadParams };

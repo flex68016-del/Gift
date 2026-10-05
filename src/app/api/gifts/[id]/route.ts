@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { invalidateAllGiftCaches } from "@/lib/cache";
+import { db } from "@/lib/db/client";
 import { verifyCookie } from "@/lib/security/cookie";
 import { assertSameOrigin } from "@/lib/security/csrf";
-import { db } from "@/lib/db/client";
-import { invalidateAllGiftCaches } from "@/lib/cache";
 
 export async function DELETE(
   request: NextRequest,

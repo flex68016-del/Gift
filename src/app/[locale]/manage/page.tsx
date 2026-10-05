@@ -1,12 +1,13 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
+
+import { db } from "@/lib/db/client";
+import { verifyCookie } from "@/lib/security/cookie";
 
 import { ManageDashboard } from "./ManageDashboard";
-import { verifyCookie } from "@/lib/security/cookie";
-import { db } from "@/lib/db/client";
 
 interface PageProps {
   params: {
