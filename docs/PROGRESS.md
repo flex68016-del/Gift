@@ -235,3 +235,31 @@
 - Tests de charge pour valider l'absence de verrou sur record_open
 - Validation de la convergence de open_count après passage du job
 - Intégration réelle de la génération d'URL signées par lot
+
+## Prompt 9A - Paiement FedaPay et publication terminé
+### Complété
+- Interface PaymentProvider (abstraction pour changement de fournisseur)
+- Implémentation FedaPayProvider (placeholder API REST)
+- Grille tarifaire côté serveur (Standard 1500 XOF, Premium à définir)
+- POST /api/gifts/[id]/checkout : authentification propriétaire, validation cadeau, création paiement, transaction FedaPay
+- POST /api/webhooks/fedapay : vérification signature (double secret pour rotation), idempotence via webhook_events, vérification montant/devise, publication transactionnelle
+- Machine d'états des paiements (pending → approved/declined/canceled → refunded)
+- Verrou SELECT FOR UPDATE pendant traitement webhook
+- Contrainte d'unicité : un seul paiement approuvé par cadeau (trigger ou EXCLUDE)
+- Migration SQL 0010_payment_constraints.sql :
+  - Fonction validate_payment_transition()
+  - Trigger payment_transition_trigger
+  - Trigger prevent_duplicate_approved_trigger (fallback sans btree_gist)
+  - Index pour les requêtes fréquentes
+- Page /checkout/return avec vérification statut (limité en débit)
+- API GET /api/payments/[transactionId]/status
+- Messages i18n FR/EN pour checkout
+- Documentation PAYMENTS.md avec procédure test sandbox
+
+### Reste à faire (selon CDC)
+- Implémentation réelle de l'API FedaPay (fetch/SDK)
+- Template d'e-mail de confirmation (Resend)
+- Job send-email idempotent
+- Limites de débit par cadeau et IP sur /checkout
+- Expiration des paiements pending après 1 heure (job de cleanup)
+- Fournisseur de secours (Stripe)
