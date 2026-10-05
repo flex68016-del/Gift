@@ -1,3 +1,5 @@
+"use client";
+
 import { forceTier } from "@/motion/perf/tier";
 import { useTier } from "@/motion/perf/useTier";
 import { ParchmentScene } from "@/motion/themes/parchment/scene";
