@@ -55,6 +55,29 @@
     "paymentUnknownMessage": "Nous n'avons pas pu déterminer le statut de votre paiement. Vérifiez votre e-mail pour plus d'informations.",
     "backToHome": "Retour à l'accueil"
   },
+  "manage": {
+    "title": "Gérer le cadeau",
+    "description": "Suivez et gérez votre cadeau",
+    "status": "Statut",
+    "firstOpened": "Première ouverture",
+    "openCount": "Nombre d'ouvertures",
+    "createdAt": "Créé le",
+    "expiresAt": "Expire le",
+    "editButton": "Modifier",
+    "copyLink": "Copier le lien",
+    "downloadQR": "Télécharger le QR",
+    "deleteButton": "Supprimer",
+    "deleteConfirm": "Supprimer le cadeau ?",
+    "cancel": "Annuler",
+    "backToHome": "Retour à l'accueil",
+    "deleted": "Cadeau supprimé",
+    "deletedMessage": "Ce cadeau a été supprimé et n'est plus accessible.",
+    "notPublished": "Cadeau non publié",
+    "notPublishedMessage": "Ce cadeau n'a pas encore été publié. Continuez l'édition pour le publier.",
+    "continueEditing": "Continuer l'édition",
+    "unauthorized": "Non autorisé",
+    "notFound": "Cadeau introuvable"
+  },
   "themes": {
     "parchment": {
       "skip": "Passer l'animation",

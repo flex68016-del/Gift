@@ -55,6 +55,29 @@
     "paymentUnknownMessage": "We could not determine the status of your payment. Check your email for more information.",
     "backToHome": "Back to home"
   },
+  "manage": {
+    "title": "Manage gift",
+    "description": "Track and manage your gift",
+    "status": "Status",
+    "firstOpened": "First opened",
+    "openCount": "Open count",
+    "createdAt": "Created",
+    "expiresAt": "Expires",
+    "editButton": "Edit",
+    "copyLink": "Copy link",
+    "downloadQR": "Download QR",
+    "deleteButton": "Delete",
+    "deleteConfirm": "Delete gift?",
+    "cancel": "Cancel",
+    "backToHome": "Back to home",
+    "deleted": "Gift deleted",
+    "deletedMessage": "This gift has been deleted and is no longer accessible.",
+    "notPublished": "Gift not published",
+    "notPublishedMessage": "This gift has not been published yet. Continue editing to publish it.",
+    "continueEditing": "Continue editing",
+    "unauthorized": "Unauthorized",
+    "notFound": "Gift not found"
+  },
   "themes": {
     "parchment": {
       "skip": "Skip animation",

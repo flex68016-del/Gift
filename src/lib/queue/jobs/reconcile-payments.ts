@@ -49,6 +49,10 @@ async function reconcilePaymentsHandler(payload: ReconcilePaymentsPayload): Prom
           }
 
           const lockedPaymentData = lockedPayment[0];
+          if (!lockedPaymentData) {
+            await db`ROLLBACK`;
+            continue;
+          }
 
           // Vérifier que le paiement est toujours pending
           if (lockedPaymentData.status !== "pending") {

@@ -1,109 +1,53 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 
-import { blockSchema } from "@/features/blocks/schemas";
-import { requireGiftOwner } from "@/lib/auth/require-gift-owner";
-import { limit } from "@/lib/rate-limit";
-import { assertBodySize,assertSameOrigin } from "@/lib/security/csrf";
-import { hashSecret } from "@/lib/security/hash";
+import { verifyCookie } from "@/lib/security/cookie";
+import { assertSameOrigin } from "@/lib/security/csrf";
+import { db } from "@/lib/db/client";
+import { invalidateAllGiftCaches } from "@/lib/cache";
 
-const updateGiftSchema = z
-  .object({
-    themeKey: z.string().min(1).max(50).optional(),
-    locale: z.enum(["fr", "en"]).optional(),
-    senderName: z.string().min(1).max(100).optional(),
-    blocks: z.array(blockSchema).optional(),
-    openSettings: z
-      .object({
-        type: z.enum(["immediate", "secret", "scheduled"]),
-        secret: z.string().optional(),
-        hint: z.string().max(200).optional(),
-        scheduledAt: z.string().optional(), // ISO 8601 UTC
-      })
-      .optional(),
-  })
-  .strict();
-
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) {
   try {
-    const giftId = params.id;
-
-    // Vérifications de sécurité
+    // Vérification CSRF
     assertSameOrigin(request);
-    assertBodySize(request);
 
-    // Authentification du propriétaire
-    requireGiftOwner(request, giftId);
-
-    // Rate limiting
-    const deviceCookie = request.cookies.get("__Host-did")?.value;
-    const ip = request.headers.get("x-forwarded-for")?.split(",")[0] || request.headers.get("x-real-ip") || "unknown";
-    const limitResult = await limit({
-      route: "PATCH /api/gifts/[id]",
-      device: deviceCookie,
-      resource: `update-gift-${giftId}`,
-      ip,
-    });
-
-    if (!limitResult.allowed) {
+    // Vérifier le cookie de session
+    const sessionCookie = request.cookies.get("__Host-manage-session");
+    if (!sessionCookie) {
       return NextResponse.json(
-        { error: "Too many requests" },
-        { status: 429, headers: { "Retry-After": limitResult.resetAt ? Math.ceil((limitResult.resetAt - Date.now()) / 1000).toString() : "60" } },
+        { error: "Unauthorized" },
+        { status: 401 },
       );
     }
 
-    // Validation du corps
-    const body = await request.json();
-    const result = updateGiftSchema.safeParse(body);
-
-    if (!result.success) {
-      return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+    const giftId = await verifyCookie(sessionCookie.value);
+    if (!giftId || giftId !== params.id) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 },
+      );
     }
 
-    const { themeKey, locale, senderName, blocks, openSettings } = result.data;
+    // Suppression logique (marquer comme supprimé)
+    await db`
+      UPDATE gifts
+      SET deleted_at = NOW(), updated_at = NOW()
+      WHERE id = ${giftId}
+    `;
 
-    // Validation des blocs avec validateGift
-    if (blocks) {
-      const { validateGift } = await import("@/features/blocks/schemas");
-      const validation = validateGift(blocks);
+    // Invalider le cache
+    await invalidateAllGiftCaches(giftId, "");
 
-      if (!validation.valid) {
-        return NextResponse.json({ error: "Invalid blocks", details: validation.errors }, { status: 400 });
-      }
-    }
-
-    // Traitement des réglages d'ouverture
-    let openSettingsData = null;
-    if (openSettings) {
-      if (openSettings.type === "secret" && openSettings.secret) {
-        const secretHash = await hashSecret(openSettings.secret);
-        openSettingsData = {
-          type: "secret",
-          secretHash,
-          hint: openSettings.hint,
-        };
-      } else if (openSettings.type === "scheduled" && openSettings.scheduledAt) {
-        openSettingsData = {
-          type: "scheduled",
-          scheduledAt: new Date(openSettings.scheduledAt).toISOString(),
-        };
-      } else {
-        openSettingsData = {
-          type: "immediate",
-        };
-      }
-    }
-
-    // Mise à jour en base de données
-    // TODO: Implémenter la mise à jour dans Supabase avec transaction
-    // await db.update("gifts", { id: giftId }, { themeKey, locale, senderName, blocks, openSettings: openSettingsData });
+    // TODO: Envoyer un e-mail de notification à l'expéditeur
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    if (error instanceof Error && error.message.startsWith("Unauthorized")) {
-      return NextResponse.json({ error: error.message }, { status: 401 });
-    }
-    console.error("Error updating gift:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    console.error("Delete gift error:", error);
+    return NextResponse.json(
+      { error: "Internal error" },
+      { status: 500 },
+    );
   }
 }
