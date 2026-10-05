@@ -1,52 +1,48 @@
 import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 
-import { generateNonce } from "@/lib/security/nonce";
+import { buildCsp, isPrivatePath } from "@/lib/security/headers";
 import { routing } from "@/i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
 export function middleware(request: NextRequest) {
-  const nonce = generateNonce();
-  const response = intlMiddleware(request);
+  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 
-  // Security headers
-  response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
-  response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
-  response.headers.set("Cross-Origin-Resource-Policy", "same-site");
-  response.headers.set("Permissions-Policy", "camera=(), geolocation=(), payment=(), usb=()");
-  response.headers.set("X-Powered-By", "false");
+  // Copier les en-têtes de requête et ajouter le nonce
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-nonce", nonce);
 
-  // CSP with nonce (report-only mode for now)
-  const supabaseDomain = process.env.NEXT_PUBLIC_SUPABASE_URL
-    ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
-    : "*.supabase.co";
+  // Passer la requête modifiée à next-intl
+  const response = intlMiddleware(
+    new NextRequest(request.url, {
+      headers: requestHeaders,
+      method: request.method,
+      body: request.body,
+    })
+  );
 
-  const csp = [
-    "default-src 'none'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
-    `style-src 'self' 'nonce-${nonce}'`,
-    `img-src 'self' data: blob: https://${supabaseDomain}`,
-    `media-src 'self' blob: https://${supabaseDomain}`,
-    "font-src 'self'",
-    `connect-src 'self' https://${supabaseDomain} wss://${supabaseDomain}`,
-    "form-action 'self'",
-    "base-uri 'none'",
-    "object-src 'none'",
-    "frame-ancestors 'none'",
-    "upgrade-insecure-requests",
-    "require-trusted-types-for 'script'",
-  ].join("; ");
+  // Headers dynamiques selon la route
+  const pathname = request.nextUrl.pathname;
+  const isPrivate = isPrivatePath(pathname);
 
-  response.headers.set("Content-Security-Policy-Report-Only", csp);
-  response.headers.set("x-nonce", nonce);
+  // CSP Report-Only
+  response.headers.set("Content-Security-Policy-Report-Only", buildCsp(nonce));
 
-  // Cache-Control and noindex for private routes
-  const path = request.nextUrl.pathname;
-  if (path.startsWith("/g/") || path.startsWith("/manage/") || path.startsWith("/c/") || path.startsWith("/checkout/")) {
-    response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
+  // Referrer-Policy
+  response.headers.set("Referrer-Policy", isPrivate ? "no-referrer" : "strict-origin-when-cross-origin");
+
+  // Permissions-Policy
+  const microphonePermission = pathname.startsWith("/create") || pathname.startsWith("/g/") ? "(self)" : "()";
+  response.headers.set(
+    "Permissions-Policy",
+    `microphone=${microphonePermission}, camera=(), geolocation=(), payment=(), usb=()`
+  );
+
+  // Headers pour routes privées
+  if (isPrivate) {
+    response.headers.set("Cache-Control", "no-store");
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
 

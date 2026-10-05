@@ -307,3 +307,46 @@
 - Actions sensibles : jeton CSRF en double soumission
 - E-mail de notification après suppression ou récupération
 - Rotation complète : invalidation de l'ancien jeton et des sessions existantes
+
+## Phase 2 - chore/i18n-routing-unique terminé
+### Complété
+- Configuration i18n centralisée avec defineRouting (src/i18n/routing.ts)
+- Suppression des duplications de locale (middleware, i18n.ts, i18n/request.ts)
+- Mise à jour de src/i18n/request.ts pour utiliser hasLocale et routing
+- Création de src/i18n/navigation.ts avec createNavigation
+- next.config.ts pointe vers src/i18n/request.ts
+- generateStaticParams ajouté dans layout pour rendu statique /fr et /en
+- setRequestLocale dans layout et page marketing
+- Correction "use client" pour pages de test de thèmes (useTier client-only)
+- Séparation composant client/server pour useTranslations
+
+## Phase 3 - fix/middleware-en-têtes terminé
+### Complété
+- Création de src/lib/security/headers.ts :
+  - getSupabaseHost() : parse URL avec try/catch, repli *.supabase.co
+  - isPrivatePath() : retire préfixe locale, détecte /g/, /manage/, /c/, /checkout/
+  - buildCsp() : politique stricte sans upgrade-insecure-requests ni frame-ancestors, avec report-uri
+- next.config.ts avec headers() pour toutes les routes :
+  - HSTS (production), X-Content-Type-Options, Cross-Origin-Opener-Policy, Cross-Origin-Resource-Policy
+  - CSP appliquée minimale (frame-ancestors, base-uri, object-src, upgrade-insecure-requests en prod)
+  - Cache-Control no-store sur /api/:path*
+- Middleware réécrit :
+  - createMiddleware(routing) avec routing partagé
+  - Nonce généré et passé dans en-têtes de requête (x-nonce)
+  - Suppression de X-Powered-By
+  - Headers dynamiques : CSP-Report-Only, Referrer-Policy, Permissions-Policy
+  - Routes privées : Referrer-Policy no-referrer, Cache-Control no-store, X-Robots-Tag noindex
+  - Microphone=(self) sur /create et /g/, () ailleurs
+- API /api/csp-report/route.ts : POST uniquement, corps limité 10KB, log une ligne sans données personnelles
+- Tests unitaires (Vitest) pour isPrivatePath et getSupabaseHost
+- Tests E2E (Playwright) pour security headers
+
+### Décision Prompt 13 - CSP avec nonce
+La documentation Next.js indique que l'utilisation de nonces impose un rendu dynamique de toutes les pages, car les nonces sont injectés pendant SSR depuis les en-têtes de requête. Les pages statiques sont générées au build time sans en-têtes de requête, donc aucun nonce ne peut être injecté.
+
+**Options futures :**
+1. Appliquer la CSP avec nonce seulement sur les pages privées et dynamiques (rendu dynamique)
+2. Utiliser une CSP basée sur des hachages pour les pages statiques (précalculés au build)
+3. Hybride : hachages pour pages statiques, nonce pour pages dynamiques
+
+Pour l'instant, CSP en mode Report-Only avec nonce pour collecter les violations avant application stricte.
