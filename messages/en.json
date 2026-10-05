@@ -32,37 +32,72 @@
       "title": "A few minutes for a surprise.",
       "step1": {
         "title": "Compose",
-        "description": "Add your letter, photos, a voice message, a timeline. You see the result in real time."
+        "text": "Add your letter, photos, a voice message, a timeline. You see the result in real time."
       },
       "step2": {
         "title": "Pay",
-        "description": "By mobile money or credit card. You see your entire gift before paying."
+        "text": "By mobile money or credit card. You see your entire gift before paying."
       },
       "step3": {
         "title": "Share",
-        "description": "Send the link on WhatsApp or print the card with its QR code. You choose when it opens."
+        "text": "Send the link on WhatsApp or print the card with its QR code. You choose when it opens."
       }
     },
     "themes": {
       "title": "A different opening for every occasion.",
-      "birthday": "An envelope that opens under your finger.",
-      "parchment": "A wax seal to break, a letter that unrolls.",
-      "gift": "A ribbon to pull, a light that emerges.",
+      "birthday": {
+        "title": "Birthday",
+        "text": "An envelope that opens under your finger."
+      },
+      "parchment": {
+        "title": "Parchment",
+        "text": "A wax seal to break, a letter that unrolls."
+      },
+      "gift": {
+        "title": "Gift",
+        "text": "A ribbon to pull, a light that emerges."
+      },
       "more": "More themes coming soon."
     },
     "content": {
       "title": "Everything that makes a real keepsake.",
-      "voice": "Your voice",
-      "voiceDescription": "A 60-second voice message, like on the phone.",
-      "letter": "a letter",
-      "photos": "photos",
-      "timeline": "a timeline",
-      "counter": "a day counter",
-      "quiz": "a quiz",
-      "reveal": "a final reveal",
-      "music": "your music"
+      "voice": {
+        "title": "Your voice",
+        "text": "A 60-second voice message, like on the phone."
+      },
+      "letter": {
+        "title": "a letter"
+      },
+      "photos": {
+        "title": "photos"
+      },
+      "timeline": {
+        "title": "a timeline"
+      },
+      "counter": {
+        "title": "a day counter"
+      },
+      "quiz": {
+        "title": "a quiz"
+      },
+      "reveal": {
+        "title": "a final reveal"
+      },
+      "music": {
+        "title": "your music"
+      }
     },
-    "occasions": "Birthday · Wedding · Baptism · Mother's Day · Tabaski · Christmas · Tribute · Reunion · Departure",
+    "occasions": [
+      "Birthday",
+      "Wedding",
+      "Baptism",
+      "Mother's Day",
+      "Tabaski",
+      "Christmas",
+      "Tribute",
+      "Reunion",
+      "Departure"
+    ],
     "diaspora": {
       "title": "Distance no longer matters.",
       "text": "From Montreal, Paris or Brussels to Lomé, Cotonou or Abidjan: your gift arrives as a link, light, even with a small connection."
