@@ -175,3 +175,63 @@
 - Vérification que tous les blocs s'affichent correctement dans les 3 thèmes
 - Budget de poids respecté (~50KB par thème sans images statiques)
 - Simplification de SceneDirector (suppression de la méthode play)
+
+## Prompt 8A - Page destinataire et déverrouillage terminé
+### Complété
+- Page `/[locale]/g/[slug]` avec coque minimale (aucun bloc ni URL de fichier)
+- Métadonnées OG avec `robots: noindex, nofollow`
+- Anti-énumération : même page neutre pour cadeaux non publiés/brouillons/expirés
+- Image OG générique du thème
+- `POST /api/g/[slug]/unlock` : vérification mot secret avec hash
+- Cookie signé de 24h (`__Host-gift-unlock`, httpOnly, Secure, SameSite=Lax)
+- Vérification CSRF
+- Message d'erreur générique
+- Placeholder pour limites d'essais (5 essais/15min par cadeau + IP)
+- `GET /api/g/[slug]/content` : refus (423) si planifié et non échu
+- Refus si secret non déverrouillé
+- Renvoie les blocs validés et URLs signées (placeholder)
+- Cache-Control: no-store
+- Hook `useGiftExperience` : machine d'états (locked → ready → intro → blocks → finale → ended)
+- Reprise au dernier bloc vu (stockage local, sans donnée sensible)
+- Envoi automatique d'événements (opened, completed)
+- Écrans : chargement, mot secret avec indice, compte à rebours, intro, blocs, finale, fin
+- Intégration du thème depuis le registre
+- Utilisation de `useTier` pour le niveau de performance
+- Affichage de la scène d'ouverture du thème
+- `POST /api/g/[slug]/report` : signalement vers abuse_reports
+- Limite de 500 caractères
+- Ajout de `signCookie` et `verifyCookie` (alias)
+
+### Reste à faire (selon CDC)
+- Durcir le mot secret : limites Upstash, Turnstile après 3 échecs, verrouillage 15min après 5 échecs (placeholders ajoutés)
+- Tests E2E et validation
+
+## Prompt 8B - Cache des points chauds terminé
+### Complété
+- Migration SQL `0009_cache_perf_optimizations.sql` :
+  - Ajout colonne `processed` à `gift_events`
+  - Modification de `record_open` pour ne pas verrouiller (insertion directe dans gift_events)
+  - Fonction `flush_open_counts` pour recalculer `open_count` par batch
+- Job `flush-open-counts` dans src/lib/queue/jobs/flush-open-counts.ts
+  - Appel de la fonction SQL `flush_open_counts()`
+  - Max retries: 3, retry delay: 300s (5min)
+- Cache Redis/Upstash dans src/lib/cache.ts :
+  - Implémentation UpstashCache (placeholder REST API)
+  - Cache des cadeaux chauds (60s, sans URL signées)
+  - Cache de la coque de page (30s)
+  - Fonctions : cacheGift, getCachedGift, invalidateGiftCache, cacheGiftShell, getCachedGiftShell, invalidateAllGiftCaches
+- Intégration du cache dans `/api/g/[slug]/content` :
+  - Tentative de récupération depuis le cache
+  - Mise en cache si absent
+- Étalement aléatoire côté client dans GiftClient.tsx :
+  - Délai aléatoire 0-3s avant de demander le contenu pour les cadeaux planifiés
+  - Utilisation de useEffect avec setTimeout pour éviter l'attente synchrone
+- Optimisation de la génération d'URL signées :
+  - Structure préparée pour génération par lot (une seule opération par réponse)
+  - Placeholder pour l'intégration réelle avec StorageProvider
+
+### Reste à faire (selon CDC)
+- Configuration réelle d'Upstash Redis (variables d'environnement)
+- Tests de charge pour valider l'absence de verrou sur record_open
+- Validation de la convergence de open_count après passage du job
+- Intégration réelle de la génération d'URL signées par lot

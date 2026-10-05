@@ -72,16 +72,30 @@ export function GiftClient({ slug, locale }: GiftClientProps) {
   }
 
   if (error === "scheduled") {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-md w-full">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
-            <h1 className="text-2xl font-bold mb-4">{t("countdown", { date: "..." })}</h1>
-            <p className="text-gray-600 dark:text-gray-400">{t("notPublished")}</p>
+    // Étalement aléatoire 0-3s avant de demander le contenu
+    const [delayed, setDelayed] = useState(false);
+
+    useEffect(() => {
+      const delay = Math.random() * 3000;
+      const timer = setTimeout(() => {
+        setDelayed(true);
+        loadContent();
+      }, delay);
+      return () => clearTimeout(timer);
+    }, [loadContent]);
+
+    if (!delayed) {
+      return (
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
+          <div className="max-w-md w-full">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+              <h1 className="text-2xl font-bold mb-4">{t("countdown", { date: "..." })}</h1>
+              <p className="text-gray-600 dark:text-gray-400">{t("notPublished")}</p>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   if (error === "not_published" || error === "not_found") {

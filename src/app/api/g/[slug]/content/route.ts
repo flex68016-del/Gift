@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyCookie } from "@/lib/security/cookie";
 import { assertSameOrigin } from "@/lib/security/csrf";
+import { getCachedGift, cacheGift } from "@/lib/cache";
 
 export async function GET(
   request: NextRequest,
@@ -68,15 +69,25 @@ export async function GET(
       }
     }
 
+    // Tenter de récupérer depuis le cache (sans URL signées)
+    const cachedGift = await getCachedGift(giftId);
+    const giftPayload = cachedGift || {
+      id: gift.id,
+      themeKey: gift.themeKey,
+      openSettings: gift.openSettings,
+      blocks: gift.blocks,
+    };
+
+    // Mettre en cache si ce n'était pas déjà fait
+    if (!cachedGift) {
+      await cacheGift(giftId, giftPayload);
+    }
+
     // TODO: Générer des URL signées pour les fichiers (15 min)
     // Pour l'instant, retourner les blocs sans URLs
+    // Optimisation : générer les URLs par lot (une seule opération Supabase par réponse)
     const response = NextResponse.json({
-      gift: {
-        id: gift.id,
-        themeKey: gift.themeKey,
-        openSettings: gift.openSettings,
-        blocks: gift.blocks,
-      },
+      gift: giftPayload,
       // TODO: Ajouter signedUrls quand le stockage est implémenté
       signedUrls: {},
     });
