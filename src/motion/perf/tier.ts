@@ -1,65 +1,127 @@
-export type PerformanceTier = "lite" | "standard" | "ultra";
+import { useState, useEffect } from "react";
 
-/**
- * Détecte le niveau de performance du device
- * Basé sur le CDC Partie B §10.2
- */
-export function detectTier(): PerformanceTier {
-  if (typeof window === "undefined") {
-    return "standard";
-  }
+export type Tier = "lite" | "standard" | "ultra";
 
-  // Mémoire (environ 4 GB de RAM)
-  const memoryLimit = (navigator as any).deviceMemory;
-  if (memoryLimit && memoryLimit < 4) {
+export function detectTier(): Tier {
+  if (typeof window === "undefined") return "standard";
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const nav = navigator as Navigator & {
+    deviceMemory?: number;
+    connection?: { effectiveType?: string; saveData?: boolean };
+  };
+  const mem = nav.deviceMemory ?? 4;
+  const cores = navigator.hardwareConcurrency ?? 4;
+  const net = nav.connection?.effectiveType ?? "4g";
+  const save = nav.connection?.saveData ?? false;
+
+  if (reduce || save || mem <= 2 || cores <= 4 || ["slow-2g", "2g", "3g"].includes(net)) {
     return "lite";
   }
-
-  // Nombre de coeurs CPU
-  const cores = navigator.hardwareConcurrency;
-  if (cores && cores < 4) {
-    return "lite";
-  }
-
-  // Détection du réseau
-  const connection = (navigator as any).connection;
-  if (connection) {
-    if (connection.effectiveType === "2g" || connection.effectiveType === "slow-2g") {
-      return "lite";
-    }
-    if (connection.saveData) {
-      return "lite";
-    }
-  }
-
-  // Détection mobile bas de gamme
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-  );
-  if (isMobile && memoryLimit < 4) {
-    return "lite";
-  }
-
-  // Détection ultra
-  if (memoryLimit && memoryLimit >= 8 && cores && cores >= 8) {
+  if (mem >= 8 && cores >= 8 && net === "4g") {
     return "ultra";
   }
-
   return "standard";
 }
 
-/**
- * Force un niveau de performance (pour développement/tests)
- */
-let forcedTier: PerformanceTier | null = null;
+export function useTier() {
+  const [tier, setTier] = useState<Tier>("standard");
+  const [fps, setFps] = useState<number>(60);
 
-export function forceTier(tier: PerformanceTier | null): void {
+  useEffect(() => {
+    let rafId: number;
+    let frameCount = 0;
+    let lastTime = performance.now();
+
+    const measureFps = () => {
+      frameCount++;
+      const now = performance.now();
+      const delta = now - lastTime;
+
+      if (delta >= 2000) {
+        const currentFps = Math.round((frameCount * 1000) / delta);
+        setFps(currentFps);
+
+        // Dégradation si FPS < 30 pendant 2s
+        if (currentFps < 30 && tier !== "lite") {
+          setTier((prev) => (prev === "ultra" ? "standard" : "lite"));
+        }
+
+        frameCount = 0;
+        lastTime = now;
+      }
+
+      rafId = requestAnimationFrame(measureFps);
+    };
+
+    rafId = requestAnimationFrame(measureFps);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+    };
+  }, [tier]);
+
+  // Bascule manuelle depuis localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem("ecoMode");
+    if (saved === "true") {
+      setTier("lite");
+    }
+  }, []);
+
+  // Mesure de cadence pour dégradation dynamique
+  useEffect(() => {
+    if (document.hidden) return;
+
+    let rafId: number;
+    let frameCount = 0;
+    let lastTime = performance.now();
+    let fpsHistory: number[] = [];
+
+    const measureFps = () => {
+      frameCount++;
+      const now = performance.now();
+      const delta = now - lastTime;
+
+      if (delta >= 2000) {
+        const currentFps = Math.round((frameCount * 1000) / delta);
+        fpsHistory.push(currentFps);
+
+        if (fpsHistory.length >= 3) {
+          const avgFps = fpsHistory.reduce((a, b) => a + b, 0) / fpsHistory.length;
+          if (avgFps < 30 && tier !== "lite") {
+            setTier((prev) => (prev === "ultra" ? "standard" : "lite"));
+          }
+          fpsHistory = [];
+        }
+
+        frameCount = 0;
+        lastTime = now;
+      }
+
+      rafId = requestAnimationFrame(measureFps);
+    };
+
+    rafId = requestAnimationFrame(measureFps);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+    };
+  }, [tier]);
+
+  return { tier, fps };
+}
+
+// Compatibilité avec l'ancien code
+let forcedTier: Tier | null = null;
+
+export function forceTier(tier: Tier | null) {
   forcedTier = tier;
 }
 
-export function getTier(): PerformanceTier {
-  if (forcedTier) {
-    return forcedTier;
-  }
+export function getTier(): Tier {
+  if (forcedTier) return forcedTier;
   return detectTier();
 }
+
+export type PerformanceTier = Tier;

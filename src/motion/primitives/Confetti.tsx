@@ -1,20 +1,29 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
-import { getTier } from "../perf/tier";
+import { useTier } from "../perf/tier";
 
 interface ConfettiProps {
   count?: number;
   colors?: string[];
 }
 
-/**
- * Primitif d'animation : confetti (canvas)
- * La quantité varie selon le niveau de performance
- */
 export function Confetti({ count, colors }: ConfettiProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { tier } = useTier();
+
+  // Lite mode: no confetti
+  if (tier === "lite") {
+    return null;
+  }
+
+  const confettiCount = count || (tier === "ultra" ? 140 : 60);
+  const particleColors = colors || [
+    "#C8102E",
+    "#FF4D8D",
+    "#FFB3CB",
+    "#1E7A4C",
+  ];
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -23,36 +32,16 @@ export function Confetti({ count, colors }: ConfettiProps) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Adapter la quantité selon le niveau
-    const tier = getTier();
-    const actualCount = count || (tier === "lite" ? 30 : tier === "ultra" ? 150 : 80);
-    const confettiColors = colors || ["#ef4444", "#f59e0b", "#22c55e", "#3b82f6", "#a855f7"];
-
-    const particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      color: string;
-      rotation: number;
-      rotationSpeed: number;
-    }> = [];
-
-    // Initialiser les particules
-    for (let i = 0; i < actualCount; i++) {
-      const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-      if (color) {
-        particles.push({
-          x: canvas.width / 2,
-          y: canvas.height / 2,
-          vx: (Math.random() - 0.5) * 10,
-          vy: (Math.random() - 0.5) * 10 - 5,
-          color,
-          rotation: Math.random() * 360,
-          rotationSpeed: (Math.random() - 0.5) * 10,
-        });
-      }
-    }
+    const particles = Array.from({ length: confettiCount }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 4,
+      vy: (Math.random() - 0.5) * 4 - 2,
+      size: Math.random() * 8 + 4,
+      color: particleColors[Math.floor(Math.random() * particleColors.length)] || "#C8102E",
+      rotation: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 5,
+    }));
 
     let animationId: number;
 
@@ -62,42 +51,46 @@ export function Confetti({ count, colors }: ConfettiProps) {
       particles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.2; // gravité
+        p.vy += 0.1; // gravity
         p.rotation += p.rotationSpeed;
 
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate((p.rotation * Math.PI) / 180);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-4, -4, 8, 8);
+        ctx.fillStyle = p.color || "#C8102E";
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
         ctx.restore();
+
+        // Remove particles that are off screen
+        if (p.y > canvas.height) {
+          p.y = -10;
+          p.x = Math.random() * canvas.width;
+          p.vy = Math.random() * 2;
+        }
       });
 
-      // Retirer les particules hors écran
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        if (p && p.y > canvas.height + 20) {
-          particles.splice(i, 1);
-        }
-      }
-
-      if (particles.length > 0) {
-        animationId = requestAnimationFrame(animate);
-      }
+      animationId = requestAnimationFrame(animate);
     };
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    animate();
+    animationId = requestAnimationFrame(animate);
 
-    return () => cancelAnimationFrame(animationId);
-  }, [count, colors]);
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, [confettiCount]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-50"
-      style={{ width: "100%", height: "100%" }}
+      width={window.innerWidth}
+      height={window.innerHeight}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        pointerEvents: "none",
+        zIndex: 9999,
+      }}
     />
   );
 }

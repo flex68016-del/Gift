@@ -1,79 +1,98 @@
-import { beforeEach,describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { detectTier, forceTier,getTier } from "./tier";
+import { detectTier } from "./tier";
 
 describe("detectTier", () => {
+  const originalMatchMedia = window.matchMedia;
+  const originalHardwareConcurrency = (navigator as any).hardwareConcurrency;
+  const originalDeviceMemory = (navigator as any).deviceMemory;
+  const originalConnection = (navigator as any).connection;
+
   beforeEach(() => {
-    // Reset forced tier before each test
-    forceTier(null);
+    // Reset mocks
+    window.matchMedia = vi.fn();
+    (navigator as any).hardwareConcurrency = originalHardwareConcurrency;
+    (navigator as any).deviceMemory = originalDeviceMemory;
+    (navigator as any).connection = originalConnection;
   });
 
   it("détecte le niveau lite pour mémoire faible", () => {
-    // Mock navigator.hardwareConcurrency et deviceMemory
-    Object.defineProperty(window.navigator, "hardwareConcurrency", {
-      value: 2,
-      writable: true,
-    });
-    Object.defineProperty(window.navigator, "deviceMemory", {
-      value: 2,
-      writable: true,
-    });
+    (window.matchMedia as any).mockReturnValue({ matches: false });
+    (navigator as any).hardwareConcurrency = 2;
+    (navigator as any).deviceMemory = 2;
+    (navigator as any).connection = { effectiveType: "4g", saveData: false };
+
+    const tier = detectTier();
+    expect(tier).toBe("lite");
+  });
+
+  it("détecte le niveau lite pour prefers-reduced-motion", () => {
+    (window.matchMedia as any).mockReturnValue({ matches: true });
+    (navigator as any).hardwareConcurrency = 8;
+    (navigator as any).deviceMemory = 8;
+    (navigator as any).connection = { effectiveType: "4g", saveData: false };
+
+    const tier = detectTier();
+    expect(tier).toBe("lite");
+  });
+
+  it("détecte le niveau lite pour saveData", () => {
+    (window.matchMedia as any).mockReturnValue({ matches: false });
+    (navigator as any).hardwareConcurrency = 8;
+    (navigator as any).deviceMemory = 8;
+    (navigator as any).connection = { effectiveType: "4g", saveData: true };
+
+    const tier = detectTier();
+    expect(tier).toBe("lite");
+  });
+
+  it("détecte le niveau lite pour connexion lente", () => {
+    (window.matchMedia as any).mockReturnValue({ matches: false });
+    (navigator as any).hardwareConcurrency = 8;
+    (navigator as any).deviceMemory = 8;
+    (navigator as any).connection = { effectiveType: "3g", saveData: false };
 
     const tier = detectTier();
     expect(tier).toBe("lite");
   });
 
   it("détecte le niveau standard pour moyenne gamme", () => {
-    Object.defineProperty(window.navigator, "hardwareConcurrency", {
-      value: 4,
-      writable: true,
-    });
-    Object.defineProperty(window.navigator, "deviceMemory", {
-      value: 4,
-      writable: true,
-    });
+    (window.matchMedia as any).mockReturnValue({ matches: false });
+    (navigator as any).hardwareConcurrency = 4;
+    (navigator as any).deviceMemory = 4;
+    (navigator as any).connection = { effectiveType: "4g", saveData: false };
 
     const tier = detectTier();
     expect(tier).toBe("standard");
   });
 
   it("détecte le niveau ultra pour haute gamme", () => {
-    Object.defineProperty(window.navigator, "hardwareConcurrency", {
-      value: 8,
-      writable: true,
-    });
-    Object.defineProperty(window.navigator, "deviceMemory", {
-      value: 8,
-      writable: true,
-    });
+    (window.matchMedia as any).mockReturnValue({ matches: false });
+    (navigator as any).hardwareConcurrency = 8;
+    (navigator as any).deviceMemory = 8;
+    (navigator as any).connection = { effectiveType: "4g", saveData: false };
 
     const tier = detectTier();
     expect(tier).toBe("ultra");
   });
 
-  it("retourne standard par défaut si hardware info non disponible", () => {
-    Object.defineProperty(window.navigator, "hardwareConcurrency", {
-      value: undefined,
-      writable: true,
-    });
-    Object.defineProperty(window.navigator, "deviceMemory", {
-      value: undefined,
-      writable: true,
-    });
+  it("retourne standard par défaut côté serveur", () => {
+    // Simuler côté serveur
+    const windowSpy = vi.spyOn(global, "window", "get").mockReturnValue(undefined as any);
 
     const tier = detectTier();
-    expect(tier).toBe("standard"); // Comportement actuel de la fonction
+    expect(tier).toBe("standard");
+
+    windowSpy.mockRestore();
   });
 
-  it("forceTier fonctionne correctement", () => {
-    forceTier("ultra");
-    expect(getTier()).toBe("ultra");
+  it("retourne standard si hardware info non disponible", () => {
+    (window.matchMedia as any).mockReturnValue({ matches: false });
+    (navigator as any).hardwareConcurrency = undefined;
+    (navigator as any).deviceMemory = undefined;
+    (navigator as any).connection = undefined;
 
-    forceTier("lite");
-    expect(getTier()).toBe("lite");
-
-    forceTier(null);
-    // Retourne à la détection automatique
-    expect(getTier()).toBe("standard"); // Default sur la plupart des machines
+    const tier = detectTier();
+    expect(tier).toBe("standard");
   });
 });

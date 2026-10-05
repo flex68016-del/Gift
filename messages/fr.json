@@ -12,9 +12,104 @@
   },
   "landing": {
     "hero": {
-      "title": "Un cadeau qui se vit, pas qui se lit",
-      "subtitle": "Créez en quelques minutes un cadeau numérique interactif pour vos proches",
-      "cta": "Commencer"
+      "title": "Un cadeau qui se vit, pas qui se lit.",
+      "subtitle": "Compose une surprise avec ta lettre, tes photos, ta voix et ta musique. Elle s'ouvre par un simple lien, sur n'importe quel téléphone.",
+      "cta": "Créer mon cadeau",
+      "secondary": "Voir comment ça marche",
+      "badge": "Bientôt disponible",
+      "nameLabel": "Essaie avec un prénom",
+      "namePlaceholder": "Ama",
+      "hint": "Touche l'enveloppe",
+      "replay": "Rejouer"
+    },
+    "letter": {
+      "title": "Joyeux anniversaire, {name} !",
+      "nameDefault": "toi",
+      "body": "Aujourd'hui, tout le monde pense à toi. Voici un petit moment rien qu'à toi.",
+      "signature": "Avec tout mon cœur"
+    },
+    "how": {
+      "title": "Quelques minutes pour une surprise.",
+      "step1": {
+        "title": "Compose",
+        "description": "Ajoute ta lettre, tes photos, un message vocal, une chronologie. Tu vois le résultat en direct."
+      },
+      "step2": {
+        "title": "Paie",
+        "description": "En mobile money ou par carte bancaire. Tu vois ton cadeau en entier avant de payer."
+      },
+      "step3": {
+        "title": "Partage",
+        "description": "Envoie le lien sur WhatsApp ou imprime la carte avec son QR code. Tu choisis quand il s'ouvre."
+      }
+    },
+    "themes": {
+      "title": "Une ouverture différente pour chaque occasion.",
+      "birthday": "Une enveloppe qui s'ouvre sous ton doigt.",
+      "parchment": "Un sceau de cire qu'on brise, une lettre qui se déroule.",
+      "gift": "Un ruban à tirer, une lumière qui jaillit.",
+      "more": "D'autres thèmes arrivent bientôt."
+    },
+    "content": {
+      "title": "Tout ce qui fait un vrai souvenir.",
+      "voice": "Ta voix",
+      "voiceDescription": "Un message vocal de 60 secondes, comme au téléphone.",
+      "letter": "une lettre",
+      "photos": "des photos",
+      "timeline": "une chronologie",
+      "counter": "un compteur de jours",
+      "quiz": "un quiz",
+      "reveal": "une révélation finale",
+      "music": "ta musique"
+    },
+    "occasions": "Anniversaire · Mariage · Baptême · Fête des mères · Tabaski · Noël · Hommage · Retrouvailles · Départ",
+    "diaspora": {
+      "title": "La distance ne compte plus.",
+      "text": "De Montréal, Paris ou Bruxelles à Lomé, Cotonou ou Abidjan : ton cadeau arrive en un lien, léger, même avec une petite connexion."
+    },
+    "price": {
+      "title": "Un prix simple.",
+      "amount": "1 500 FCFA",
+      "unit": "par cadeau, sans abonnement, sans compte.",
+      "point1": "Tu vois ton cadeau en entier avant de payer.",
+      "point2": "Tu peux le modifier après l'avoir publié.",
+      "point3": "Aucune application à installer, ni pour toi ni pour la personne qui le reçoit."
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "q1": {
+        "question": "Faut-il créer un compte ?",
+        "answer": "Non. Tu reçois un lien privé qui te permet de modifier ton cadeau quand tu veux."
+      },
+      "q2": {
+        "question": "Comment payer ?",
+        "answer": "Par mobile money (MTN MoMo, Moov Money, Mixx by Yas) ou par carte bancaire. Le paiement se fait une seule fois, à la publication."
+      },
+      "q3": {
+        "question": "La personne qui reçoit le cadeau doit-elle installer quelque chose ?",
+        "answer": "Non. Le cadeau s'ouvre dans le navigateur du téléphone, avec un lien ou un QR code, même avec une connexion modeste."
+      },
+      "q4": {
+        "question": "Mes photos et mes messages sont-ils privés ?",
+        "answer": "Oui. Seule la personne qui a le lien peut ouvrir ton cadeau. Il n'apparaît pas dans les moteurs de recherche et tu peux le supprimer."
+      },
+      "q5": {
+        "question": "Puis-je choisir le moment de l'ouverture ?",
+        "answer": "Oui : tout de suite, avec un mot secret, ou à une date et une heure précises."
+      },
+      "q6": {
+        "question": "Puis-je modifier mon cadeau après l'avoir publié ?",
+        "answer": "Oui, avec ton lien privé, aussi longtemps qu'il est en ligne."
+      }
+    },
+    "final": {
+      "title": "Prépare ta surprise.",
+      "cta": "Créer mon cadeau"
+    },
+    "soon": {
+      "title": "Bientôt disponible",
+      "text": "On prépare le lancement.",
+      "whatsapp": "Écris-nous sur WhatsApp pour être prévenu."
     }
   },
   "create": {
