@@ -26,7 +26,8 @@ export function detectTier(): Tier {
 
 export function useTier() {
   const [tier, setTier] = useState<Tier>(() => {
-    // Bascule manuelle depuis localStorage au démarrage
+    // Bascule manuelle depuis localStorage au démarrage (côté client uniquement)
+    if (typeof window === "undefined") return "standard";
     const saved = localStorage.getItem("ecoMode");
     if (saved === "true") {
       return "lite";

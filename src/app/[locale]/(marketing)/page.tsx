@@ -8,6 +8,14 @@ import { EnvelopeScene } from "@/components/marketing/EnvelopeScene";
 import { Footer } from "@/components/marketing/Footer";
 import { Header } from "@/components/marketing/Header";
 import { MotionControls } from "@/components/marketing/MotionControls";
+import { ScrollStory } from "@/components/marketing/ScrollStory";
+import { ThemesStrip } from "@/components/marketing/ThemesStrip";
+import { BlocksList } from "@/components/marketing/BlocksList";
+import { OccasionsTicker } from "@/components/marketing/OccasionsTicker";
+import { DiasporaPath } from "@/components/marketing/DiasporaPath";
+import { PriceBlock } from "@/components/marketing/PriceBlock";
+import { Faq } from "@/components/marketing/Faq";
+import { FinalCta } from "@/components/marketing/FinalCta";
 
 export default function HomePage() {
   const t = useTranslations("landing");
@@ -90,17 +98,29 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Placeholder for other sections - will be added in phase 3 */}
-        <section id="how-section" className="py-20 px-6">
-          <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-8" style={{ color: "var(--color-ink)" }}>
-              {t("how.title")}
-            </h2>
-            <p className="text-lg" style={{ color: "var(--color-ink-soft)" }}>
-              Le reste de la landing page sera ajouté dans la phase 3.
-            </p>
-          </div>
-        </section>
+        {/* How it works */}
+        <ScrollStory />
+
+        {/* Themes */}
+        <ThemesStrip />
+
+        {/* Content blocks */}
+        <BlocksList />
+
+        {/* Occasions ticker */}
+        <OccasionsTicker />
+
+        {/* Diaspora */}
+        <DiasporaPath />
+
+        {/* Price */}
+        <PriceBlock />
+
+        {/* FAQ */}
+        <Faq />
+
+        {/* Final CTA */}
+        <FinalCta />
       </main>
 
       <Footer />

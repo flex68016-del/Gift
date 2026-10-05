@@ -32,37 +32,72 @@
       "title": "Quelques minutes pour une surprise.",
       "step1": {
         "title": "Compose",
-        "description": "Ajoute ta lettre, tes photos, un message vocal, une chronologie. Tu vois le résultat en direct."
+        "text": "Ajoute ta lettre, tes photos, un message vocal, une chronologie. Tu vois le résultat en direct."
       },
       "step2": {
         "title": "Paie",
-        "description": "En mobile money ou par carte bancaire. Tu vois ton cadeau en entier avant de payer."
+        "text": "En mobile money ou par carte bancaire. Tu vois ton cadeau en entier avant de payer."
       },
       "step3": {
         "title": "Partage",
-        "description": "Envoie le lien sur WhatsApp ou imprime la carte avec son QR code. Tu choisis quand il s'ouvre."
+        "text": "Envoie le lien sur WhatsApp ou imprime la carte avec son QR code. Tu choisis quand il s'ouvre."
       }
     },
     "themes": {
       "title": "Une ouverture différente pour chaque occasion.",
-      "birthday": "Une enveloppe qui s'ouvre sous ton doigt.",
-      "parchment": "Un sceau de cire qu'on brise, une lettre qui se déroule.",
-      "gift": "Un ruban à tirer, une lumière qui jaillit.",
+      "birthday": {
+        "title": "Anniversaire",
+        "text": "Une enveloppe qui s'ouvre sous ton doigt."
+      },
+      "parchment": {
+        "title": "Parchemin",
+        "text": "Un sceau de cire qu'on brise, une lettre qui se déroule."
+      },
+      "gift": {
+        "title": "Cadeau",
+        "text": "Un ruban à tirer, une lumière qui jaillit."
+      },
       "more": "D'autres thèmes arrivent bientôt."
     },
     "content": {
       "title": "Tout ce qui fait un vrai souvenir.",
-      "voice": "Ta voix",
-      "voiceDescription": "Un message vocal de 60 secondes, comme au téléphone.",
-      "letter": "une lettre",
-      "photos": "des photos",
-      "timeline": "une chronologie",
-      "counter": "un compteur de jours",
-      "quiz": "un quiz",
-      "reveal": "une révélation finale",
-      "music": "ta musique"
+      "voice": {
+        "title": "Ta voix",
+        "text": "Un message vocal de 60 secondes, comme au téléphone."
+      },
+      "letter": {
+        "title": "une lettre"
+      },
+      "photos": {
+        "title": "des photos"
+      },
+      "timeline": {
+        "title": "une chronologie"
+      },
+      "counter": {
+        "title": "un compteur de jours"
+      },
+      "quiz": {
+        "title": "un quiz"
+      },
+      "reveal": {
+        "title": "une révélation finale"
+      },
+      "music": {
+        "title": "ta musique"
+      }
     },
-    "occasions": "Anniversaire · Mariage · Baptême · Fête des mères · Tabaski · Noël · Hommage · Retrouvailles · Départ",
+    "occasions": [
+      "Anniversaire",
+      "Mariage",
+      "Baptême",
+      "Fête des mères",
+      "Tabaski",
+      "Noël",
+      "Hommage",
+      "Retrouvailles",
+      "Départ"
+    ],
     "diaspora": {
       "title": "La distance ne compte plus.",
       "text": "De Montréal, Paris ou Bruxelles à Lomé, Cotonou ou Abidjan : ton cadeau arrive en un lien, léger, même avec une petite connexion."
