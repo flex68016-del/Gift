@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
+import { GiftClient } from "./GiftClient";
+
 interface PageProps {
   params: {
     locale: string;
@@ -36,22 +38,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function GiftPage({ params }: PageProps) {
-  const t = await getTranslations({ locale: params.locale, namespace: "gift" });
-
-  // TODO: Fetch gift data from database
-  // Pour l'instant, renvoie une coque vide
-  // Si le cadeau n'existe pas, n'est pas publié, est en brouillon, expiré ou supprimé :
-  // renvoyer la même page neutre (anti-énumération)
-
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
-      <div className="max-w-md w-full">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
-          <h1 className="text-2xl font-bold mb-4">{t("loading")}</h1>
-          <p className="text-gray-600 dark:text-gray-400">{t("loadingGift")}</p>
-        </div>
-      </div>
-    </div>
-  );
+export default function GiftPage({ params }: PageProps) {
+  return <GiftClient slug={params.slug} locale={params.locale} />;
 }
