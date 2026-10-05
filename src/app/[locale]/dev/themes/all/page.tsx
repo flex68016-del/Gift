@@ -1,3 +1,5 @@
+"use client";
+
 import { BirthdayEnvelopeScene } from "@/motion/themes/birthday-envelope/scene";
 import { ParchmentScene } from "@/motion/themes/parchment/scene";
 import { GiftRibbonScene } from "@/motion/themes/gift-ribbon/scene";

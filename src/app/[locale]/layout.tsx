@@ -1,5 +1,5 @@
 import "../globals.css";
-import "../../../styles/design-tokens.css";
+import "../../styles/design-tokens.css";
 
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";

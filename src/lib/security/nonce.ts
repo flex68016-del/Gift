@@ -1,5 +1,6 @@
-import { randomBytes } from "crypto";
-
+// Web Crypto API pour Edge Runtime compatibility
 export function generateNonce(): string {
-  return randomBytes(16).toString("base64");
+  const array = new Uint8Array(16);
+  crypto.getRandomValues(array);
+  return btoa(String.fromCharCode(...array));
 }

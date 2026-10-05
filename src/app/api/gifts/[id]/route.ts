@@ -51,3 +51,49 @@ export async function DELETE(
     );
   }
 }
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  try {
+    // Vérifier le cookie de session
+    const sessionCookie = request.cookies.get("__Host-manage-session");
+    if (!sessionCookie) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 },
+      );
+    }
+
+    const giftId = await verifyCookie(sessionCookie.value);
+    if (!giftId || giftId !== params.id) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 },
+      );
+    }
+
+    // Récupérer les données du cadeau
+    const gift = await db`
+      SELECT id, slug, title, recipient_name, status, first_opened_at, open_count, created_at, expires_at, deleted_at
+      FROM gifts
+      WHERE id = ${giftId}
+    `;
+
+    if (!gift || gift.length === 0) {
+      return NextResponse.json(
+        { error: "Gift not found" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(gift[0]);
+  } catch (error) {
+    console.error("Get gift error:", error);
+    return NextResponse.json(
+      { error: "Internal error" },
+      { status: 500 },
+    );
+  }
+}
