@@ -9,7 +9,7 @@ const intlMiddleware = createMiddleware({
   localePrefix: "as-needed",
 });
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const nonce = generateNonce();
   const response = intlMiddleware(request);
 
