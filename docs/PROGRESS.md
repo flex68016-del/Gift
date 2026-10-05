@@ -1,5 +1,13 @@
 # Journal d'avancement du projet Moment
 
+## Phase 1 - fix/boucle-redirections - Diagnostic
+### Boucle de redirections
+**Chaîne observée :** `/fr` → 307 `/fr` → 307 `/fr` → ... (6 redirections max)
+**Cause racine :** `src/app/layout.tsx` contient `redirect("/fr")` ligne 14
+**Explication :** Le middleware next-intl redirige `/` vers `/fr`, mais le layout racine redirige encore vers `/fr`, créant une boucle.
+**Version :** next@16.3.8, next-intl@4.14.9
+**Correctif :** Supprimer redirect() dans layout racine, utiliser notFound() pour langue invalide, lire params avec await.
+
 ## 2026-10-03
 - Dépôt initialisé
 - Règles globales du projet créées (.windsurf/rules/project.md)

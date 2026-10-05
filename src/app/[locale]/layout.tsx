@@ -4,8 +4,11 @@ import "../../styles/design-tokens.css";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
 
 import { inter, playfair } from "@/lib/fonts";
+
+const locales = ["fr", "en"] as const;
 
 export const metadata: Metadata = {
   title: "Moment - Un cadeau qui se vit",
@@ -20,6 +23,11 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+
+  if (!locales.includes(locale as any)) {
+    notFound();
+  }
+
   const messages = await getMessages();
 
   return (
