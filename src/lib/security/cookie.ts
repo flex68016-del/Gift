@@ -12,6 +12,13 @@ export function signGiftId(giftId: string): string {
 }
 
 /**
+ * Alias pour signCookie (compatibilité)
+ */
+export function signCookie(giftId: string): string {
+  return signGiftId(giftId);
+}
+
+/**
  * Vérifie et extrait l'identifiant de cadeau depuis un cookie signé
  */
 export function verifyGiftId(signedData: string): string | null {
@@ -32,4 +39,11 @@ export function verifyGiftId(signedData: string): string | null {
   if (Date.now() - cookieTime > maxAge) return null;
 
   return giftId || null;
+}
+
+/**
+ * Alias pour verifyCookie (compatibilité)
+ */
+export function verifyCookie(signedData: string): string | null {
+  return verifyGiftId(signedData);
 }
