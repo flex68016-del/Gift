@@ -53,7 +53,12 @@
     "paymentFailedMessage": "Le paiement n'a pas pu être traité. Vous pouvez réessayer depuis l'éditeur.",
     "paymentUnknown": "Statut inconnu",
     "paymentUnknownMessage": "Nous n'avons pas pu déterminer le statut de votre paiement. Vérifiez votre e-mail pour plus d'informations.",
-    "backToHome": "Retour à l'accueil"
+    "backToHome": "Retour à l'accueil",
+    "giftLink": "Lien du cadeau",
+    "scanToOpen": "Scanne pour ouvrir ton cadeau",
+    "whatsappMessage": "Je t'ai envoyé un cadeau spécial ! Scanne ce lien pour l'ouvrir :",
+    "shareOnWhatsApp": "Partager sur WhatsApp",
+    "editGift": "Modifier le cadeau"
   },
   "manage": {
     "title": "Gérer le cadeau",

@@ -17,23 +17,23 @@ const checkoutSchema = z.object({
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id: giftId } = await params;
+
     // Vérification CSRF
     assertSameOrigin(request);
 
     // Authentifier le propriétaire du cadeau
     try {
-      requireGiftOwner(request, params.id);
+      requireGiftOwner(request, giftId);
     } catch {
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 },
       );
     }
-
-    const giftId = params.id;
 
     // Valider le corps de la requête
     const body = await request.json();

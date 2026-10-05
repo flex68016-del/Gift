@@ -5,16 +5,12 @@ import { db } from "@/lib/db/client";
 import { sha256 } from "@/lib/security/tokens";
 import { signCookie } from "@/lib/security/cookie";
 
-interface RouteParams {
-  params: {
-    locale: string;
-    token: string;
-  };
-}
-
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ locale: string; token: string }> }
+) {
   try {
-    const { token } = params;
+    const { token, locale } = await params;
 
     // Hasher le jeton pour comparaison
     const tokenHash = sha256(token);
@@ -31,14 +27,14 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       // Toujours rediriger vers /manage avec une erreur générique
       // pour éviter l'énumération
       return NextResponse.redirect(
-        new URL(`/${params.locale}/manage?error=invalid`, request.url),
+        new URL(`/${locale}/manage?error=invalid`, request.url),
       );
     }
 
     const giftData = gift[0];
     if (!giftData) {
       return NextResponse.redirect(
-        new URL(`/${params.locale}/manage?error=invalid`, request.url),
+        new URL(`/${locale}/manage?error=invalid`, request.url),
       );
     }
 
@@ -58,12 +54,13 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     // Rediriger vers le tableau de bord
     return NextResponse.redirect(
-      new URL(`/${params.locale}/manage`, request.url),
+      new URL(`/${locale}/manage`, request.url),
     );
   } catch (error) {
     console.error("Manage token exchange error:", error);
+    const { locale } = await params;
     return NextResponse.redirect(
-      new URL(`/${params.locale}/manage?error=invalid`, request.url),
+      new URL(`/${locale}/manage?error=invalid`, request.url),
     );
   }
 }

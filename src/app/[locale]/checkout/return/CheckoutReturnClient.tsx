@@ -2,11 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import WhatsAppCTA from "@/components/WhatsAppCTA";
 
 interface CheckoutReturnClientProps {
   locale: string;
   transactionId?: string;
   status?: string;
+}
+
+interface PaymentData {
+  status: string;
+  giftId?: string;
+  giftSlug?: string;
+  editToken?: string;
 }
 
 export function CheckoutReturnClient({
@@ -15,8 +23,9 @@ export function CheckoutReturnClient({
   status,
 }: CheckoutReturnClientProps) {
   const t = useTranslations("checkout");
-  const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
+  const [paymentData, setPaymentData] = useState<PaymentData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [qrCode, setQrCode] = useState<string | null>(null);
 
   useEffect(() => {
     // Interroger le point d'état pour vérifier le statut réel
@@ -30,7 +39,19 @@ export function CheckoutReturnClient({
         const response = await fetch(`/api/payments/${transactionId}/status`);
         if (response.ok) {
           const data = await response.json();
-          setPaymentStatus(data.status);
+          setPaymentData(data);
+
+          // Si succès, générer le QR code
+          if (data.status === "approved" && data.giftSlug) {
+            const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://moment.gift";
+            const giftUrl = `${baseUrl}/${locale}/g/${data.giftSlug}`;
+            const QRCode = (await import("qrcode")).default;
+            const qrDataUrl = await QRCode.toDataURL(giftUrl, {
+              width: 300,
+              margin: 2,
+            });
+            setQrCode(qrDataUrl);
+          }
         }
       } catch (error) {
         console.error("Failed to check payment status:", error);
@@ -40,7 +61,7 @@ export function CheckoutReturnClient({
     }
 
     checkStatus();
-  }, [transactionId]);
+  }, [transactionId, locale]);
 
   if (loading) {
     return (
@@ -53,10 +74,12 @@ export function CheckoutReturnClient({
     );
   }
 
-  // Afficher le message selon le statut
-  const isSuccess = paymentStatus === "approved" || status === "approved";
-  const isPending = paymentStatus === "pending" || status === "pending";
-  const isFailed = paymentStatus === "declined" || paymentStatus === "canceled" || status === "declined" || status === "canceled";
+  const isSuccess = paymentData?.status === "approved" || status === "approved";
+  const isPending = paymentData?.status === "pending" || status === "pending";
+  const isFailed = paymentData?.status === "declined" || paymentData?.status === "canceled" || status === "declined" || status === "canceled";
+
+  const giftUrl = paymentData?.giftSlug ? `/${locale}/g/${paymentData.giftSlug}` : null;
+  const editUrl = paymentData?.editToken ? `/${locale}/manage/${paymentData.editToken}` : null;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
@@ -71,6 +94,52 @@ export function CheckoutReturnClient({
               </div>
               <h1 className="text-2xl font-bold mb-4">{t("paymentSuccess")}</h1>
               <p className="text-gray-600 dark:text-gray-400 mb-6">{t("paymentSuccessMessage")}</p>
+
+              {/* Lien du cadeau */}
+              {giftUrl && (
+                <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{t("giftLink")}</p>
+                  <a
+                    href={giftUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 dark:text-blue-400 hover:underline break-all"
+                  >
+                    {giftUrl}
+                  </a>
+                </div>
+              )}
+
+              {/* QR Code */}
+              {qrCode && (
+                <div className="mb-6">
+                  <img src={qrCode} alt="QR Code" className="mx-auto mb-2" />
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{t("scanToOpen")}</p>
+                </div>
+              )}
+
+              {/* Bouton WhatsApp */}
+              <div className="mb-6">
+                <WhatsAppCTA
+                  phoneNumber=""
+                  defaultMessage={t("whatsappMessage")}
+                  label={t("shareOnWhatsApp")}
+                  position="inline"
+                />
+              </div>
+
+              {/* Lien d'édition */}
+              {editUrl && (
+                <div className="mb-6">
+                  <a
+                    href={editUrl}
+                    className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                  >
+                    {t("editGift")}
+                  </a>
+                </div>
+              )}
+
               <a
                 href={`/${locale}`}
                 className="inline-block bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"

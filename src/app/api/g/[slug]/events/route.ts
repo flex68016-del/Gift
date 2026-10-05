@@ -7,9 +7,11 @@ interface EventRequestBody {
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { slug: string } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   try {
+    const { slug } = await params;
+
     // Vérification CSRF
     assertSameOrigin(request);
 
@@ -29,7 +31,7 @@ export async function POST(
     // TODO: Fetch gift from database
     const gift = {
       id: "1",
-      slug: params.slug,
+      slug,
       status: "published",
     };
 

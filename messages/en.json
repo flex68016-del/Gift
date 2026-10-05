@@ -53,7 +53,12 @@
     "paymentFailedMessage": "The payment could not be processed. You can try again from the editor.",
     "paymentUnknown": "Unknown status",
     "paymentUnknownMessage": "We could not determine the status of your payment. Check your email for more information.",
-    "backToHome": "Back to home"
+    "backToHome": "Back to home",
+    "giftLink": "Gift link",
+    "scanToOpen": "Scan to open your gift",
+    "whatsappMessage": "I sent you a special gift! Scan this link to open it:",
+    "shareOnWhatsApp": "Share on WhatsApp",
+    "editGift": "Edit gift"
   },
   "manage": {
     "title": "Manage gift",

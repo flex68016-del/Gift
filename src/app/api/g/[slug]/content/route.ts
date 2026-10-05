@@ -5,9 +5,11 @@ import { getCachedGift, cacheGift } from "@/lib/cache";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   try {
+    const { slug } = await params;
+
     // Vérification CSRF
     assertSameOrigin(request);
 
@@ -31,7 +33,7 @@ export async function GET(
     // TODO: Fetch gift from database
     const gift = {
       id: giftId,
-      slug: params.slug,
+      slug,
       status: "published",
       openSettings: {
         type: "immediate",

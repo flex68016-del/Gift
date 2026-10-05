@@ -7,9 +7,11 @@ import { invalidateAllGiftCaches } from "@/lib/cache";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id: paramId } = await params;
+
     // Vérification CSRF
     assertSameOrigin(request);
 
@@ -23,7 +25,7 @@ export async function DELETE(
     }
 
     const giftId = await verifyCookie(sessionCookie.value);
-    if (!giftId || giftId !== params.id) {
+    if (!giftId || giftId !== paramId) {
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 },
@@ -54,9 +56,11 @@ export async function DELETE(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id: paramId } = await params;
+
     // Vérifier le cookie de session
     const sessionCookie = request.cookies.get("__Host-manage-session");
     if (!sessionCookie) {
@@ -67,7 +71,7 @@ export async function GET(
     }
 
     const giftId = await verifyCookie(sessionCookie.value);
-    if (!giftId || giftId !== params.id) {
+    if (!giftId || giftId !== paramId) {
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 },

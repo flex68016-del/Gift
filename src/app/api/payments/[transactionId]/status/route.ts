@@ -1,36 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
-
-import { db } from "@/lib/db/client";
+import { sql } from "@/lib/db";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { transactionId: string } },
+  { params }: { params: Promise<{ transactionId: string }> }
 ) {
   try {
-    // Récupérer le paiement depuis la base de données
-    const payment = await db`
-      SELECT status, gift_id
-      FROM payments
-      WHERE transaction_id = ${params.transactionId}
-      LIMIT 1
+    const { transactionId } = await params;
+
+    // Récupérer le paiement et les infos du cadeau
+    const result = await sql`
+      SELECT
+        p.status,
+        p.gift_id,
+        g.slug,
+        g.edit_token
+      FROM payments p
+      LEFT JOIN gifts g ON p.gift_id = g.id
+      WHERE p.transaction_id = ${transactionId}
+        AND p.deleted_at IS NULL
     `;
 
-    if (!payment || payment.length === 0) {
-      return NextResponse.json(
-        { error: "Payment not found" },
-        { status: 404 },
-      );
+    if (result.length === 0) {
+      return NextResponse.json({ error: "Payment not found" }, { status: 404 });
     }
 
+    const payment = result[0];
+
     return NextResponse.json({
-      status: payment[0]?.status,
-      giftId: payment[0]?.gift_id,
+      status: payment.status,
+      giftId: payment.gift_id,
+      giftSlug: payment.slug,
+      editToken: payment.edit_token,
     });
   } catch (error) {
-    console.error("Payment status error:", error);
-    return NextResponse.json(
-      { error: "Internal error" },
-      { status: 500 },
-    );
+    console.error("Error fetching payment status:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
