@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import QRCode from "qrcode";
 import { cookies } from "next/headers";
-import { verifyCookie } from "@/lib/security/cookies";
+import { verifyCookie } from "@/lib/security/cookie";
 import { db } from "@/lib/db/client";
 
 export async function GET(
@@ -17,7 +17,7 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const sessionGiftId = await verifyCookie(sessionCookie.value);
+    const sessionGiftId = verifyCookie(sessionCookie.value);
     if (!sessionGiftId || sessionGiftId !== giftId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
