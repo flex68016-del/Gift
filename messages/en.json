@@ -12,9 +12,104 @@
   },
   "landing": {
     "hero": {
-      "title": "A gift to experience, not just read",
-      "subtitle": "Create an interactive digital gift for your loved ones in minutes",
-      "cta": "Get started"
+      "title": "A gift to experience, not just read.",
+      "subtitle": "Compose a surprise with your letter, photos, voice and music. It opens with a simple link, on any phone.",
+      "cta": "Create my gift",
+      "secondary": "See how it works",
+      "badge": "Coming soon",
+      "nameLabel": "Try with a name",
+      "namePlaceholder": "Ama",
+      "hint": "Touch the envelope",
+      "replay": "Replay"
+    },
+    "letter": {
+      "title": "Happy birthday, {name} !",
+      "nameDefault": "you",
+      "body": "Today, everyone is thinking of you. Here's a little moment just for you.",
+      "signature": "With all my heart"
+    },
+    "how": {
+      "title": "A few minutes for a surprise.",
+      "step1": {
+        "title": "Compose",
+        "description": "Add your letter, photos, a voice message, a timeline. You see the result in real time."
+      },
+      "step2": {
+        "title": "Pay",
+        "description": "By mobile money or credit card. You see your entire gift before paying."
+      },
+      "step3": {
+        "title": "Share",
+        "description": "Send the link on WhatsApp or print the card with its QR code. You choose when it opens."
+      }
+    },
+    "themes": {
+      "title": "A different opening for every occasion.",
+      "birthday": "An envelope that opens under your finger.",
+      "parchment": "A wax seal to break, a letter that unrolls.",
+      "gift": "A ribbon to pull, a light that emerges.",
+      "more": "More themes coming soon."
+    },
+    "content": {
+      "title": "Everything that makes a real keepsake.",
+      "voice": "Your voice",
+      "voiceDescription": "A 60-second voice message, like on the phone.",
+      "letter": "a letter",
+      "photos": "photos",
+      "timeline": "a timeline",
+      "counter": "a day counter",
+      "quiz": "a quiz",
+      "reveal": "a final reveal",
+      "music": "your music"
+    },
+    "occasions": "Birthday · Wedding · Baptism · Mother's Day · Tabaski · Christmas · Tribute · Reunion · Departure",
+    "diaspora": {
+      "title": "Distance no longer matters.",
+      "text": "From Montreal, Paris or Brussels to Lomé, Cotonou or Abidjan: your gift arrives as a link, light, even with a small connection."
+    },
+    "price": {
+      "title": "A simple price.",
+      "amount": "1,500 XOF",
+      "unit": "per gift, no subscription, no account.",
+      "point1": "You see your entire gift before paying.",
+      "point2": "You can modify it after publishing.",
+      "point3": "No app to install, neither for you nor for the person receiving it."
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "q1": {
+        "question": "Do I need to create an account?",
+        "answer": "No. You receive a private link that allows you to modify your gift whenever you want."
+      },
+      "q2": {
+        "question": "How to pay?",
+        "answer": "By mobile money (MTN MoMo, Moov Money, Mixx by Yas) or credit card. Payment is made once, at publication."
+      },
+      "q3": {
+        "question": "Does the person receiving the gift need to install anything?",
+        "answer": "No. The gift opens in the phone's browser, with a link or QR code, even with a modest connection."
+      },
+      "q4": {
+        "question": "Are my photos and messages private?",
+        "answer": "Yes. Only the person with the link can open your gift. It doesn't appear in search engines and you can delete it."
+      },
+      "q5": {
+        "question": "Can I choose the opening time?",
+        "answer": "Yes: right away, with a secret word, or at a specific date and time."
+      },
+      "q6": {
+        "question": "Can I modify my gift after publishing?",
+        "answer": "Yes, with your private link, as long as it's online."
+      }
+    },
+    "final": {
+      "title": "Prepare your surprise.",
+      "cta": "Create my gift"
+    },
+    "soon": {
+      "title": "Coming soon",
+      "text": "We're preparing the launch.",
+      "whatsapp": "Write to us on WhatsApp to be notified."
     }
   },
   "create": {

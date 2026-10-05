@@ -1,45 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { motion } from "motion/react";
+import { useState, useEffect } from "react";
 
 interface RevealProps {
   children: React.ReactNode;
-  className?: string;
-  threshold?: number;
+  trigger?: boolean;
 }
 
-/**
- * Primitif d'animation : révèle au déclenchement (non au scroll)
- * À utiliser pour les réponses utilisateur, pas pour le scroll
- */
-export function Reveal({ children, className = "", threshold = 0.5 }: RevealProps) {
+export function Reveal({ children, trigger }: RevealProps) {
   const [isVisible, setIsVisible] = useState(false);
 
-  const reveal = () => {
-    setIsVisible(true);
-  };
-
-  const hide = () => {
-    setIsVisible(false);
-  };
+  useEffect(() => {
+    if (trigger) {
+      setIsVisible(true);
+    }
+  }, [trigger]);
 
   return (
-    <div
-      data-reveal="true"
-      className={`transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"} ${className}`}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.5 }}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }
 
 export function useReveal() {
-  const reveal = () => {
-    const el = document.querySelector('[data-reveal="true"]');
-    if (el) {
-      (el as any).reveal?.();
-    }
-  };
+  const [isVisible, setIsVisible] = useState(false);
 
-  return { reveal };
+  const reveal = () => setIsVisible(true);
+
+  return { isVisible, reveal };
 }

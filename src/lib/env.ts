@@ -7,6 +7,8 @@ const envSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1).optional(),
   NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().optional(),
+  NEXT_PUBLIC_ALLOW_INDEXING: z.enum(["true", "false"]).default("false"),
+  NEXT_PUBLIC_WHATSAPP_NUMBER: z.string().regex(/^\d+$/).optional(),
 
   // Server only
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).default(""),
@@ -44,6 +46,8 @@ export const env = envSchema.parse({
   NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+  NEXT_PUBLIC_ALLOW_INDEXING: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
+  NEXT_PUBLIC_WHATSAPP_NUMBER: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER,
   SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
   DATABASE_URL: process.env.DATABASE_URL,
   DATABASE_MIGRATION_URL: process.env.DATABASE_MIGRATION_URL,

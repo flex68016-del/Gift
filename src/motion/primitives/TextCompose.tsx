@@ -1,37 +1,28 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { motion } from "motion/react";
 
 interface TextComposeProps {
   text: string;
   className?: string;
-  speed?: number;
 }
 
-/**
- * Primitif d'animation : le texte s'écrit progressivement
- */
-export function TextCompose({ text, className = "", speed = 50 }: TextComposeProps) {
-  const textRef = useRef<HTMLSpanElement>(null);
+export function TextCompose({ text, className }: TextComposeProps) {
+  const words = text.split(" ");
 
-  useEffect(() => {
-    if (!textRef.current) return;
-
-    const element = textRef.current;
-    element.textContent = "";
-    let index = 0;
-
-    const interval = setInterval(() => {
-      if (index < text.length) {
-        element.textContent += text[index];
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, speed);
-
-    return () => clearInterval(interval);
-  }, [text, speed]);
-
-  return <span ref={textRef} className={className} />;
+  return (
+    <span className={className}>
+      {words.map((word, index) => (
+        <motion.span
+          key={index}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.05, duration: 0.3 }}
+          style={{ display: "inline-block", marginRight: "0.25em" }}
+        >
+          {word}
+        </motion.span>
+      ))}
+    </span>
+  );
 }

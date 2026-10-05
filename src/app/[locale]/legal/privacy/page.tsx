@@ -1,5 +1,5 @@
 import { ComingSoon } from "@/components/marketing/ComingSoon";
 
-export default function CreatePage() {
+export default function PrivacyPage() {
   return <ComingSoon />;
 }
