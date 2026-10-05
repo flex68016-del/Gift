@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect,useState } from "react";
 
 export type Tier = "lite" | "standard" | "ultra";
 
@@ -25,7 +25,14 @@ export function detectTier(): Tier {
 }
 
 export function useTier() {
-  const [tier, setTier] = useState<Tier>("standard");
+  const [tier, setTier] = useState<Tier>(() => {
+    // Bascule manuelle depuis localStorage au démarrage
+    const saved = localStorage.getItem("ecoMode");
+    if (saved === "true") {
+      return "lite";
+    }
+    return detectTier();
+  });
   const [fps, setFps] = useState<number>(60);
 
   useEffect(() => {
@@ -60,14 +67,6 @@ export function useTier() {
       cancelAnimationFrame(rafId);
     };
   }, [tier]);
-
-  // Bascule manuelle depuis localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem("ecoMode");
-    if (saved === "true") {
-      setTier("lite");
-    }
-  }, []);
 
   // Mesure de cadence pour dégradation dynamique
   useEffect(() => {

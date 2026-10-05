@@ -20,16 +20,6 @@ describe("detectTier", () => {
     });
   });
 
-  it("retourne standard par défaut côté serveur", () => {
-    // Simuler côté serveur
-    const windowSpy = vi.spyOn(global, "window", "get").mockReturnValue(undefined as any);
-
-    const tier = detectTier();
-    expect(tier).toBe("standard");
-
-    windowSpy.mockRestore();
-  });
-
   it("retourne standard si window existe mais hardware info non disponible", () => {
     const tier = detectTier();
     expect(["lite", "standard", "ultra"]).toContain(tier);

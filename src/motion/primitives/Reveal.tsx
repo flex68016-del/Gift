@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface RevealProps {
   children: React.ReactNode;
@@ -9,13 +9,7 @@ interface RevealProps {
 }
 
 export function Reveal({ children, trigger }: RevealProps) {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    if (trigger) {
-      setIsVisible(true);
-    }
-  }, [trigger]);
+  const isVisible = trigger ?? false;
 
   return (
     <motion.div

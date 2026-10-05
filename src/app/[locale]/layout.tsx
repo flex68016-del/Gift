@@ -2,12 +2,13 @@ import "../globals.css";
 import "../../styles/design-tokens.css";
 
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
-import { notFound } from "next/navigation";
 
-import { inter, playfair } from "@/lib/fonts";
 import { routing } from "@/i18n/routing";
+import { fraunces, instrumentSans, inter, playfair } from "@/lib/fonts";
+import { MotionProvider } from "@/motion/MotionProvider";
 
 const locales = ["fr", "en"] as const;
 
@@ -37,9 +38,17 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${inter.variable} ${playfair.variable}`}>
+    <html lang={locale} className={`${fraunces.variable} ${instrumentSans.variable} ${inter.variable} ${playfair.variable}`}>
       <body>
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        <MotionProvider>
+          <a
+            href="#main-content"
+            className="absolute top-0 left-0 -translate-y-full focus:translate-y-0 focus:outline-none px-4 py-3 bg-[var(--color-bg)] border border-[var(--color-line)] rounded-br text-sm font-medium transition-transform"
+          >
+            Aller au contenu
+          </a>
+          <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        </MotionProvider>
       </body>
     </html>
   );

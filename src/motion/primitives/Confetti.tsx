@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo,useRef } from "react";
+
 import { useTier } from "../perf/tier";
 
 interface ConfettiProps {
@@ -12,20 +13,24 @@ export function Confetti({ count, colors }: ConfettiProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { tier } = useTier();
 
-  // Lite mode: no confetti
-  if (tier === "lite") {
-    return null;
-  }
-
   const confettiCount = count || (tier === "ultra" ? 140 : 60);
-  const particleColors = colors || [
-    "#C8102E",
-    "#FF4D8D",
-    "#FFB3CB",
-    "#1E7A4C",
-  ];
+  const particleColors = useMemo(
+    () =>
+      colors || [
+        "#C8102E",
+        "#FF4D8D",
+        "#FFB3CB",
+        "#1E7A4C",
+      ],
+    [colors],
+  );
 
   useEffect(() => {
+    // Lite mode: no confetti
+    if (tier === "lite") {
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -77,7 +82,11 @@ export function Confetti({ count, colors }: ConfettiProps) {
     return () => {
       cancelAnimationFrame(animationId);
     };
-  }, [confettiCount]);
+  }, [confettiCount, particleColors, tier]);
+
+  if (tier === "lite") {
+    return null;
+  }
 
   return (
     <canvas
