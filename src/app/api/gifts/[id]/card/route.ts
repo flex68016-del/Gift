@@ -12,7 +12,8 @@ export async function GET(
     const { id: giftId } = await params;
 
     // Vérifier le cookie de session
-    const sessionCookie = cookies().get("__Host-manage-session");
+    const cookieStore = await cookies();
+    const sessionCookie = cookieStore.get("__Host-manage-session");
     if (!sessionCookie) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -42,6 +43,9 @@ export async function GET(
     }
 
     const gift = giftResult[0];
+    if (!gift) {
+      return NextResponse.json({ error: "Gift not found" }, { status: 404 });
+    }
 
     // Générer l'URL du cadeau
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://moment.gift";

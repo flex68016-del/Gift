@@ -26,6 +26,9 @@ export async function GET(
     }
 
     const payment = result[0];
+    if (!payment) {
+      return NextResponse.json({ error: "Payment not found" }, { status: 404 });
+    }
 
     return NextResponse.json({
       status: payment.status,
