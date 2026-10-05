@@ -15,6 +15,9 @@ const locales = ["fr", "en"] as const;
 export const metadata: Metadata = {
   title: "Moment - Un cadeau qui se vit",
   description: "Créez des cadeaux numériques interactifs pour vos proches",
+  robots: {
+    index: process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true",
+  },
 };
 
 export function generateStaticParams() {

@@ -9,12 +9,14 @@ export function OccasionsTicker() {
   return (
     <section className="py-12 overflow-hidden">
       <div
-        className="whitespace-nowrap animate-marquee hover:pause"
+        className="whitespace-nowrap"
         style={{
           display: "flex",
           gap: "4rem",
           animation: "marquee 30s linear infinite",
         }}
+        onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
+        onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
       >
         {occasions.map((occasion, index) => (
           <span
@@ -36,7 +38,7 @@ export function OccasionsTicker() {
         ))}
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes marquee {
           0% {
             transform: translateX(0);
@@ -45,12 +47,9 @@ export function OccasionsTicker() {
             transform: translateX(-50%);
           }
         }
-        .animate-marquee:hover {
-          animation-play-state: paused;
-        }
         @media (prefers-reduced-motion: reduce) {
-          .animate-marquee {
-            animation: none;
+          [style*="animation: marquee"] {
+            animation: none !important;
             flex-wrap: wrap;
             justify-content: center;
           }
