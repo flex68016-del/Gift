@@ -61,6 +61,6 @@ describe("buildCsp", () => {
     expect(csp).toContain(`nonce-${nonce}`);
     expect(csp).toContain("report-uri /api/csp-report");
     expect(csp).not.toContain("upgrade-insecure-requests");
-    expect(csp).not.toContain("frame-ancestors");
+    expect(csp).toContain("frame-ancestors 'none'");
   });
 });
