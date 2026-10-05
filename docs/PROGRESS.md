@@ -277,3 +277,24 @@
 ### Reste à faire (selon CDC)
 - Implémentation réelle de l'alerte (email, Slack, Sentry)
 - Bascule automatique vers fournisseur de secours (Stripe) quand disponible
+
+## Prompt 10A - Tableau de bord terminé
+### Complété
+- Route /[locale]/manage/[token] : échange jeton contre cookie session
+- Comparaison à temps constant du jeton
+- Cookie __Host-manage-session (httpOnly, Secure, SameSite=Lax, 7 jours)
+- Redirection vers /manage après échange
+- Tableau de bord /[locale]/manage : statut, première ouverture, nombre d'ouvertures
+- Boutons : Modifier, Copier le lien, Télécharger QR (placeholder), Supprimer
+- API DELETE /api/gifts/[id] : suppression logique (deleted_at)
+- Invalidation du cache après suppression
+- Signature kid pour rotation des clés dans signCookie/verifyCookie
+- Support ancien format (3 parts) et nouveau format (4 parts)
+- dynamic force-dynamic pour éviter le cache
+- Messages i18n FR/EN pour gestion
+- Composant ManageDashboard client avec confirmation suppression
+
+### Reste à faire (selon CDC)
+- Actions sensibles : jeton CSRF en double soumission
+- E-mail de notification après suppression ou récupération
+- Rotation complète : invalidation de l'ancien jeton et des sessions existantes
