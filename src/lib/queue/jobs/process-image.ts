@@ -1,6 +1,6 @@
 import sharp from "sharp";
 
-import { storage } from "@/lib/storage";
+import { getStorage } from "@/lib/storage";
 
 import { registerJob } from "../registry";
 
@@ -21,8 +21,10 @@ async function processImageHandler(payload: ProcessImagePayload): Promise<void> 
   }
 
   try {
+    const storage = getStorage();
+
     // Télécharger l'image originale
-    const originalBuffer = await storage().download(path);
+    const originalBuffer = await storage.download(path);
 
     if (!originalBuffer) {
       throw new Error("Original image not found");
@@ -51,14 +53,14 @@ async function processImageHandler(payload: ProcessImagePayload): Promise<void> 
     const thumbnailPath = `${path.split("/")[0]}/${assetId}_thumb.webp`;
 
     // Uploader les versions traitées
-    await storage().upload({
+    await storage.upload({
       bucket,
       path: processedPath,
       content: processedImage,
       contentType: "image/webp",
     });
 
-    await storage().upload({
+    await storage.upload({
       bucket,
       path: thumbnailPath,
       content: thumbnail,
@@ -66,7 +68,7 @@ async function processImageHandler(payload: ProcessImagePayload): Promise<void> 
     });
 
     // Supprimer l'original
-    await storage().delete(path);
+    await storage.delete(path);
 
     // TODO: Mettre à jour le statut en base de données
     console.log(`Image processed for asset ${assetId}`);
