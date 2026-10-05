@@ -41,6 +41,20 @@
     "publish": "Publier",
     "publishing": "Publication en cours..."
   },
+  "checkout": {
+    "returnTitle": "Paiement en cours",
+    "returnDescription": "Vérification du statut de votre paiement",
+    "checkingStatus": "Vérification du statut...",
+    "paymentSuccess": "Paiement réussi",
+    "paymentSuccessMessage": "Votre cadeau a été publié avec succès. Vous allez recevoir un e-mail de confirmation avec le lien à partager.",
+    "paymentPending": "Paiement en attente",
+    "paymentPendingMessage": "Votre paiement est en cours de traitement. Vous recevrez une confirmation par e-mail dès qu'il sera validé.",
+    "paymentFailed": "Paiement échoué",
+    "paymentFailedMessage": "Le paiement n'a pas pu être traité. Vous pouvez réessayer depuis l'éditeur.",
+    "paymentUnknown": "Statut inconnu",
+    "paymentUnknownMessage": "Nous n'avons pas pu déterminer le statut de votre paiement. Vérifiez votre e-mail pour plus d'informations.",
+    "backToHome": "Retour à l'accueil"
+  },
   "themes": {
     "parchment": {
       "skip": "Passer l'animation",

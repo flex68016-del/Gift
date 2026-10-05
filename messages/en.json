@@ -41,6 +41,20 @@
     "publish": "Publish",
     "publishing": "Publishing..."
   },
+  "checkout": {
+    "returnTitle": "Payment in progress",
+    "returnDescription": "Checking your payment status",
+    "checkingStatus": "Checking status...",
+    "paymentSuccess": "Payment successful",
+    "paymentSuccessMessage": "Your gift has been published successfully. You will receive a confirmation email with the link to share.",
+    "paymentPending": "Payment pending",
+    "paymentPendingMessage": "Your payment is being processed. You will receive a confirmation email as soon as it is validated.",
+    "paymentFailed": "Payment failed",
+    "paymentFailedMessage": "The payment could not be processed. You can try again from the editor.",
+    "paymentUnknown": "Unknown status",
+    "paymentUnknownMessage": "We could not determine the status of your payment. Check your email for more information.",
+    "backToHome": "Back to home"
+  },
   "themes": {
     "parchment": {
       "skip": "Skip animation",
