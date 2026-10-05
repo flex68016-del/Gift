@@ -1,7 +1,7 @@
 import type { StorageProvider, UploadParams } from "./provider";
-import { SupabaseStorage } from "./supabase";
+import { SupabaseStorage, getStorage } from "./supabase";
 
-export { SupabaseStorage };
+export { SupabaseStorage, getStorage };
 export type { StorageProvider, UploadParams };
 
 // Singleton instance for server-side use
