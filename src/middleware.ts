@@ -58,7 +58,8 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Skip all internal paths (_next, _vercel, api)
-    "/((?!api|_next|_vercel|.*\\..*).*)",
+    // Match only paths without locale prefix
+    // Skip: api, _next, _vercel, static files, /fr, /en
+    "/((?!api|_next|_vercel|.*\\..*|fr|en).*)",
   ],
 };
