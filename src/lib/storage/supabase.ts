@@ -11,8 +11,11 @@ export class SupabaseStorage implements StorageProvider {
   private client;
 
   constructor() {
+    if (!env.NEXT_PUBLIC_SUPABASE_URL) {
+      throw new Error("NEXT_PUBLIC_SUPABASE_URL is required");
+    }
     this.client = createClient(
-      env.NEXT_PUBLIC_SUPABASE_URL || "",
+      env.NEXT_PUBLIC_SUPABASE_URL,
       env.SUPABASE_SERVICE_ROLE_KEY,
       {
         auth: {
@@ -135,9 +138,23 @@ export class SupabaseStorage implements StorageProvider {
 }
 
 /**
- * Instance singleton du provider Supabase
+ * Fonction pour obtenir l'instance du provider Supabase
+ * Retarde la création jusqu'à ce qu'elle soit nécessaire
  */
-export const storage = new SupabaseStorage();
+export function getStorage(): SupabaseStorage {
+  return new SupabaseStorage();
+}
+
+/**
+ * Instance singleton du provider Supabase (lazy)
+ */
+let storageInstance: SupabaseStorage | null = null;
+export const storage = (): SupabaseStorage => {
+  if (!storageInstance) {
+    storageInstance = new SupabaseStorage();
+  }
+  return storageInstance;
+};
 
 /**
  * Export par défaut pour compatibilité

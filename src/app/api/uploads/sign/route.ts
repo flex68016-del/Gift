@@ -5,7 +5,7 @@ import { requireGiftOwner } from "@/lib/auth/require-gift-owner";
 import { env } from "@/lib/env";
 import { limit } from "@/lib/rate-limit";
 import { assertBodySize,assertSameOrigin } from "@/lib/security/csrf";
-import { storageProvider } from "@/lib/storage";
+import { storage } from "@/lib/storage";
 
 const signUploadSchema = z.object({
   giftId: z.string(),
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     const path = `${giftId}/${assetId}.${ext}`;
 
     // Génération de l'URL signée
-    const signedUrl = await storageProvider.getSignedUploadUrl(path, type, 600); // 10 minutes
+    const signedUrl = await storage().getSignedUploadUrl(path, type, 600); // 10 minutes
 
     return NextResponse.json({
       assetId,

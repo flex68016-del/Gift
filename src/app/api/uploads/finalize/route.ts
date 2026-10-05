@@ -4,7 +4,7 @@ import { z } from "zod";
 import { requireGiftOwner } from "@/lib/auth/require-gift-owner";
 import { limit } from "@/lib/rate-limit";
 import { assertBodySize,assertSameOrigin } from "@/lib/security/csrf";
-import { storageProvider } from "@/lib/storage";
+import { storage } from "@/lib/storage";
 
 const finalizeUploadSchema = z.object({
   giftId: z.string(),
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
     requireGiftOwner(request, giftId);
 
     // Télécharger le fichier pour vérification
-    const fileBuffer = await storageProvider.download(path);
+    const fileBuffer = await storage().download(path);
 
     if (!fileBuffer) {
       return NextResponse.json({ error: "File not found" }, { status: 404 });
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     // Vérifier la taille réelle
     if (fileBuffer.length !== size) {
       // Supprimer le fichier
-      await storageProvider.delete(path);
+      await storage().delete(path);
       return NextResponse.json({ error: "Size mismatch" }, { status: 400 });
     }
 
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
     const detectedType = detectFileType(fileBuffer);
 
     if (!detectedType) {
-      await storageProvider.delete(path);
+      await storage().delete(path);
       return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
     }
 
@@ -100,18 +100,18 @@ export async function POST(request: NextRequest) {
     const allowedAudioTypes = ["webm", "ogg", "mp4"];
 
     if (type === "image" && !allowedImageTypes.includes(detectedType)) {
-      await storageProvider.delete(path);
+      await storage().delete(path);
       return NextResponse.json({ error: "Invalid image type" }, { status: 400 });
     }
 
     if (type === "audio" && !allowedAudioTypes.includes(detectedType)) {
-      await storageProvider.delete(path);
+      await storage().delete(path);
       return NextResponse.json({ error: "Invalid audio type" }, { status: 400 });
     }
 
     // SVG refusé (vectorielle, peut contenir du code)
     if (detectedType === "svg") {
-      await storageProvider.delete(path);
+      await storage().delete(path);
       return NextResponse.json({ error: "SVG not allowed" }, { status: 400 });
     }
 
